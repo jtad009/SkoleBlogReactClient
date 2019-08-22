@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { articles } from '../src/article';
-import CardList from './Components/CardListComponent';
 
-class App extends Component {
-    constructor(){
-        super();
-        
+import CardList from './CardListComponent';
+import {  tagIDWithArticles,filterByCategory } from '../article';
+
+class TagFiltered extends Component {
+    constructor(props){
+        super(props);
+        console.log(this.props);
+        console.log(filterByCategory[0].articles);
+        //use this to query end point props.match.params.id
         this.state = {
-            articles: articles,
+            articles: props.match.url.includes('tags') ? tagIDWithArticles[0].articles : filterByCategory[0].articles,
             searchField: '',
             
         }
@@ -21,7 +24,7 @@ class App extends Component {
         //     'Content-Type': 'application/json',
         //     'Origin':'http://localhost:8080/'
         //    });
-        // fetch('http://jabrosindustries.com/api/v1/articles/all',{
+        // fetch('http://localhost:8080/api/v1/articles/all',{
         //     crossDomain:true,
         //    headers:header
         //   })
@@ -44,7 +47,6 @@ class App extends Component {
         console.log();
     }
     render(){
-        
         const filteredArticle = this.state.articles.filter(articles => {
             return articles.title.toLowerCase().includes(this.state.searchField.toLowerCase())
         });
@@ -61,4 +63,4 @@ class App extends Component {
     }
 
 }
-export default App;
+export default TagFiltered;
