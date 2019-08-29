@@ -622,7 +622,7 @@ export const articles = [
         {
             "id": "f84b83b6-7f98-485a-bd96-fde73ba1cb9c",
             "title": "New Article",
-            "category_id": 1,
+            "category_id": 2,
             "article": "Shalom is ass",
             "slug": "New-Article",
             "view_count": 1,

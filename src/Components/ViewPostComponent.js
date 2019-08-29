@@ -8,7 +8,7 @@ const ViewPost = (params) => {
     const filteredArticle = articles.filter(article => {
         return article.slug.toLowerCase().includes(params.match.params.slug.toLowerCase())
     });
-    console.log(filteredArticle);
+  
     return (
 
 

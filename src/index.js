@@ -7,47 +7,30 @@ import * as serviceWorker from './serviceWorker';
 import ViewPost from './Components/ViewPostComponent';
 import TagFiltered from './Components/TagFilteredComponent';
 import Sidebar from './Components/SidebarComponent';
-var divStyle = {
-    // color: 'white',
-    backgroundImage: 'url(https://skole.com.ng/webroot/img/passport/blogs/Skole-cd03f.jpg)',
-    WebkitTransition: 'all', // note the capital 'W' here
-    msTransition: 'all' // 'ms' is the only lowercase vendor prefix
-};
-var divHeight = {
-    height: '300px'
-};
+import Header from './Components/HeaderComponent';
+import SearchBox from './Components/SearchBoxComponent';
+
+// const {Provider, Consumer} = React.createContext()
 ReactDOM.render(
     <Router>
         <div>
             <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-white fixed-top mb-4">
-                <div className="container">
+               
                     <a href="/skole/blog/home/home" className="navbar-brand">
                         <img src="https://skole.com.ng/img/skole.png" alt="SKOLE" />
                     </a>
                     <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-
-
-
-
-
-                </div>
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+      
+      <ul className="navbar-nav ml-auto">
+      
+        <SearchBox />
+      </ul>
+    </div>
             </nav>
-            <header className="masthead" id="masthead" style={divStyle} >
-                <div className="overlay"></div>
-                <div className="container">
-                    <div className="row" style={divHeight}>
-                        <div className="col-lg-8 col-md-10 mx-auto">
-                            <div className="page-heading">
-                                <h1 ></h1>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
+            <Header/>
             <div className="container-fluid mt-3">
                 <div className="row">
                     <Sidebar />

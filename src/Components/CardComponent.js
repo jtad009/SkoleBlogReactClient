@@ -10,7 +10,7 @@ const Card = ({ id, title, excerpt, cover, slugs, category, views, author, categ
     };
     image.onerror = function () {
         //if image doesnt load then replace it with the avatar
-        document.getElementById(id).src = 'http://localhost:8080/uploads/blog/bg-post.jpg';
+        document.getElementById(id).src = 'https://skole.com.ng/webroot/img/slide/bg-post.jpg';
 
     };
     return (

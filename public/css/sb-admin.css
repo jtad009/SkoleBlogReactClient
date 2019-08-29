@@ -27,6 +27,23 @@
   float: left;
   background: #fff;
 }
+header.masthead .page-heading, header.masthead .site-heading{
+  text-align:center;
+  padding:100px 0;
+  color:#fff
+}
+header.masthead>.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 340px;
+  width: 100%;
+  background-color: #212529;
+  opacity: 0.5;
+}
+.page-heading>h1{
+  color:white !important;
+}
 .tag>span.num {
   background: rgb(55, 147, 146);
   border-color: #e3e3e3;

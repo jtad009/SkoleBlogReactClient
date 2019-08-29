@@ -12,7 +12,6 @@ class TagFiltered extends Component {
         this.state = {
             articles: props.match.url.includes('tags') ? tagIDWithArticles[0].articles : filterByCategory[0].articles,
             searchField: '',
-            
         }
         
     }

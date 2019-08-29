@@ -11,7 +11,7 @@ class SelectCategory extends Component{
                     this.props.categories.map((tag, i) => {
                         return (
                             <option key={this.props.categories[i].id} id={this.props.categories[i].id} value={this.props.categories[i].id}>
-                                <Link to={'/article/categories/' +this.props.categories[i].id} className="tag"> {this.props.categories[i].category} </Link>
+                                 {this.props.categories[i].category} 
                                 
                                  </option>
                             

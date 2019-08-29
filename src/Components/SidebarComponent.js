@@ -3,21 +3,33 @@ import { tags, categories, tagIDWithArticles, filterByCategory } from '../articl
 import Taglist from './TaglistComponent';
 import SelectTag from './SelectTagComponent';
 import SelectCategory from './CategoriesComponent';
-import { Route, Link } from "react-router-dom";
+import { Route, Link, Redirect } from "react-router-dom";
 import TagFiltered from './TagFilteredComponent';
 
 class Sidebar extends Component {
 
+    constructor(){
+        super();
+        this.state = {
+            sortByCategory: false,
+            category: ''
+        };
+    }
     onCategoryChange = (event) => {
         console.log(event.target.value);
+        this.setState({
+            sortByCategory: true,
+            category: event.target.value
+        });
         // 
         return (
             <span>
-                <Link to={'/article/categories/' + event.target.value} className="tag"></Link>
+                
+                {/* <Link to={'/article/categories/' + event.target.value} className="tag"></Link>
                 <Route path='/article/categories/:id' exact strict render={({ match }) => {
                     // eslint-disable-next-line no-unused-expressions
                     (<TagFiltered id={match.params.id} />)
-                }} />
+                }} /> */}
             </span>
         );
     };
@@ -26,7 +38,11 @@ class Sidebar extends Component {
         console.log(event.target.value)
     };
     render() {
-
+        if(this.state.sortByCategory){
+           // eslint-disable-next-line no-unused-expressions
+           <Redirect to={'/article/categories/' + this.state.category}/>
+           console.log(this.state.category)
+        }
         return (
             <div className="col-md-3 mb-2">
                 <div id="mySidenav" className="sidenav" >
