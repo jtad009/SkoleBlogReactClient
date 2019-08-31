@@ -39,9 +39,9 @@ class Sidebar extends Component {
     };
     render() {
         if(this.state.sortByCategory){
-           // eslint-disable-next-line no-unused-expressions
-           <Redirect to={'/article/categories/' + this.state.category}/>
-           console.log(this.state.category)
+          
+           return <Redirect to={'/article/categories/' + this.state.category}/>
+           
         }
         return (
             <div className="col-md-3 mb-2">
