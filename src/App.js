@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { articles } from '../src/article';
-import CardList from './Components/CardListComponent';
+import DisplayComponent from './Components/DisplayComponent';
 
 class App extends Component {
     constructor(){
@@ -50,12 +50,7 @@ class App extends Component {
         });
         return (
             
-            <div className="col-lg-8 col-md-10 mx-auto">
-
-               
-                    <CardList posts={filteredArticle} />
-              
-            </div>
+           <DisplayComponent filteredArticle={filteredArticle}/>
            
         );
     }

@@ -1,24 +1,20 @@
-import React from 'react'
-export const themeConfig = {
-    light: {
-        headerBg: '#F7B30C',
-        fontColor: 'black',
-        bodybg: 'white',
-        // logo: lightLogo
-    },
-    dark: {
-        headerBg: '#3c3c3c',
-        fontColor: 'white',
-        bodybg: 'black',
-        // logo: darkLogo
+import React,{Component, createContext} from 'react'
+
+const BlogContext = createContext();
+class ArticleContextProvider extends Component{
+    BlogState = {
+        sortByCategory: false,
+        filterCriteria: '',
+        articles: [],
+        article: {}
     }
-};
-export const blogState = {
-    category: 'all',
-    tag:'',
-    articles: [],
-    article: {}
+    render(){
+        return(
+            <BlogContext.Provider value={{...this.state}}>
+                {this.props.children}
+            </BlogContext.Provider>
+        );
+    }
 }
 
-const BlogContext = React.createContext(blogState.);
-export default BlogContext;
+export default ArticleContextProvider;
