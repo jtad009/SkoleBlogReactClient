@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { articles } from '../src/article';
-import DisplayComponent from './Components/DisplayComponent';
+import Display from './Components/DisplayComponent';
 
 class App extends Component {
     constructor(){
@@ -50,7 +50,7 @@ class App extends Component {
         });
         return (
             
-           <DisplayComponent filteredArticle={filteredArticle}/>
+           <Display />
            
         );
     }

@@ -2,19 +2,19 @@ export const articles = [
         {
             id: "06aba281-18b1-46db-93bd-d222cf2ad718",
             title: "nc5TX",
-            category_id: 1,
+            category_id: 2,
             article: "The School. A social institution where knowledge is transferred, lives are impacted, positively for the betterment of the society. An institution, that is home to key characters. Student or Pupil, Teacher or Tutor, however you refer to them, they are the significant elements and compositions that make up the school. Although, there may be a missing role or character, society has ignored to devise the epic combo required for The School to constantly thrive invariably.",
             "slug": "nc5TX",
             "view_count": 1,
             "user_id": 1,
-            "cover_image": "5d58386df13f9-test.png",
+            "cover_image": "Skole-8c07f.jpg",
             "comment_count": "0",
             "published": 1,
             "created_at": "2019-08-17 17:25:01",
             "updated_at": "2019-08-17 17:25:01",
             "categories": {
-                "id": 1,
-                "category": "Tessters",
+                "id": 2,
+                "category": "pARETNAL GUADIANCE",
                 "article_count": 0,
                 "created_at": "2019-08-16 16:09:34",
                 "updated_at": "2019-08-18 06:30:34"
@@ -857,7 +857,7 @@ export const tagIDWithArticles = [
                 "created_at": "2019-08-17 17:26:04",
                 "updated_at": "2019-08-17 17:26:04",
                 "pivot": {
-                    "tag_id": 2,
+                    "tag_id": 1,
                     "article_id": "1f4cf1e5-8e1f-4a49-9301-36a385575be3",
                     "created_at": "2019-08-17 17:26:04",
                     "updated_at": "2019-08-17 17:26:04"
@@ -881,7 +881,7 @@ export const filterByCategory = [
         "article_count": 0,
         "created_at": "2019-08-17 17:39:00",
         "updated_at": "2019-08-17 17:39:00",
-        "articles": [
+         articles: [
             {
                 "id": "06aba281-18b1-46db-93bd-d222cf2ad718",
                 "title": "nc5TX",

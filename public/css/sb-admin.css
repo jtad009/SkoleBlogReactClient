@@ -32,6 +32,25 @@ header.masthead .page-heading, header.masthead .site-heading{
   padding:100px 0;
   color:#fff
 }
+.masthead .breadcrumb {
+  margin-bottom: 0px !important;
+  border-radius: 0 !important;
+}
+header.masthead {
+  margin-bottom: 50px;
+  background: no-repeat center center;
+      background-color: rgba(0, 0, 0, 0);
+      background-attachment: scroll;
+      background-image: none;
+      background-size: auto;
+  background-color: #868e96;
+  background-attachment: scroll;
+  position: relative;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 header.masthead>.overlay {
   position: absolute;
   top: 0;

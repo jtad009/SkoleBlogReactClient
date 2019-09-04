@@ -1,23 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import CardList from './CardListComponent';
-import BlogContext from '../Store/Store';
-class DisplayComponent extends React.Component {
+import ViewPost from './ViewPostComponent';
+import { BlogContext } from '../Store/Store';
 
-    render() {
-        console.log(this.context);
-        return (
-            <BlogContext.Consumer>
-                {
-                    (currentContext) => {
-                        console.log("COnsumer "+currentContext.sortByCategory);
-                            // <div className="col-lg-8 col-md-10 mx-auto">
-                            //     <CardList posts={this.props.filteredArticle} />
-                            //  </div>
-                }
-            }
-            </BlogContext.Consumer>
 
-        );
-    }
+const Display = (props) => {
+    const { sortByCategory, filterCriteria, articles, article } = useContext(BlogContext);
+
+    return (
+        <div className="col-lg-8 col-md-10 mx-auto">
+            {article.length > 0 ? <ViewPost posts={articles} /> : <CardList posts={articles} />}
+        </div>
+    );
+
 }
-export default DisplayComponent;
+export default Display;

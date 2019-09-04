@@ -8,13 +8,14 @@ import ViewPost from './Components/ViewPostComponent';
 import TagFiltered from './Components/TagFilteredComponent';
 import Sidebar from './Components/SidebarComponent';
 import Header from './Components/HeaderComponent';
-import SearchBox from './Components/SearchBoxComponent';
-
+import Navbar from './Components/NavComponent';
+import ArticleContextProvider from './Store/Store'
 // const {Provider, Consumer} = React.createContext()
 ReactDOM.render(
-    <Router>
+    <ArticleContextProvider>
+        <Router>
         <div>
-        
+            <Navbar/>
             <Header/>
             <div className="container-fluid mt-3">
                 <div className="row">
@@ -28,7 +29,9 @@ ReactDOM.render(
         </div>
     </Router>
 
-    , document.getElementById('root'));
+   
+    </ArticleContextProvider>
+     , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
