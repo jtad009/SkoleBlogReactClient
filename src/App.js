@@ -19,11 +19,16 @@ class App extends Component {
         //     "Access-Control-Allow-Credentials" : true ,
         //     'Access-Control-Allow-Headers':'Origin, Content-Type, Authorization, X-Requested-With',
         //     'Content-Type': 'application/json',
-        //     'Origin':'http://localhost:8080/'
+        //     'Origin':'http://localhost:80/',
+        //     'Pragma':'no-cache',
+        //     'Cache-Control':'no-cache',
+        //     'Access-Control-Request-Method':'GET',
+        //     'Access-Control-Request-Headers':'access-control-allow-credentials,access-control-allow-headers,access-control-allow-origin,cache-control,content-type,pragma'
         //    });
-        // fetch('http://jabrosindustries.com/api/v1/articles/all',{
+        // fetch('http://localhost:80/api/v1/articles/all',{
         //     crossDomain:true,
-        //    headers:header
+        //     headers:header
+
         //   })
         // .then(function(response){
         //     console.log(response.headers);
@@ -31,7 +36,7 @@ class App extends Component {
         // })
         // .then(response=>console.log(response))
         // .catch(function(error){
-        //     console.log(error);
+        //     console.log("Error "+error);
         // });
         
     }
