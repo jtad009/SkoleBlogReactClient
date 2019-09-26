@@ -4,7 +4,9 @@ import {
     loadArticles,
     getArticleById
 } from '../article'
+import { Link, Switch, Redirect } from "react-router-dom";
 export const BlogContext = createContext();
+
 class ArticleContextProvider extends Component {
     state = {
         sortByCategory: false,
@@ -29,14 +31,11 @@ class ArticleContextProvider extends Component {
 
     }
     onReset = (event) => {
-        event.preventDefault();
-        var articleList = loadArticles().then(res=>{
-            return res
-             });   
-             this.setState({
-                article: {},
-                articles:articleList
-            });
+        // event.preventDefault();
+        // var articleList = loadArticles().then(res=>{
+        //     return res
+        //      });   
+        return <Redirect to='/' />
         
     };
 
@@ -44,26 +43,16 @@ class ArticleContextProvider extends Component {
         event.preventDefault();
 
         if (event.target.id) {
-           // const articles = loadArticles()
-           var articleList = loadArticles().then(res=>{
-            return res
-             });   
-            
-            //get article with id supplied
-            getArticleById(event.target.id.toLowerCase()).
-            then((response) => {
-
-                this.setState({
-                    sortByCategory: false,
-                    filterCriteria: '',
-                    article: response.data,
-                    articles: articleList
-                });
-                console.log(response)
-            })
-                .catch(function (error) {
-                    console.log("Error " + error);
-                });
+            const data = this.state.articles.filter(article=>{
+                return article.id === event.target.id
+            });
+            this.setState({
+                        sortByCategory: false,
+                        filterCriteria: '',
+                        article: data,
+            });
+            console.log(data);
+          
 
         }
     };

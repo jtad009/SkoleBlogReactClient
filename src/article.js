@@ -9,8 +9,20 @@ const header = new Headers({
     // 'Access-Control-Request-Method': 'GET',
     'Access-Control-Request-Headers': 'access-control-allow-credentials,access-control-allow-headers,access-control-allow-origin,cache-control,content-type,pragma'
 });
+export const API_ENDPOINTS={
+    dev:{
+        'FETCH_ARTICLES': 'http://localhost/skole/blog/api/v1/articles/all.json',
+        'GET_ARTICLE_BY_ID': 'http://localhost:80/api/v1/articles/view/',
+    },
+    production:{
+        'FETCH_ARTICLES': 'https://skole.com.ng/blog/api/v1/articles/all.json',
+        'GET_ARTICLE_BY_ID': 'https://lskole.com.ng/blog/api/v1/articles/view/',
+    }
+};
 export function getArticleById(id) {
-    return fetch('http://localhost:80/api/v1/articles/view/' + id, {
+    return fetch(window.location.host.includes('localhost') ? 
+    API_ENDPOINTS.dev.GET_ARTICLE_BY_ID + id: 
+    API_ENDPOINTS.production.GET_ARTICLE_BY_ID + id, {
         crossDomain: true,
         headers: header
 
@@ -20,7 +32,9 @@ export function getArticleById(id) {
     });
 }
 export async function loadArticles() {
-    const response = fetch('http://localhost/skole/blog/api/v1/articles/all.json', {
+    const response = fetch(window.location.host.includes('localhost') ? 
+    API_ENDPOINTS.dev.FETCH_ARTICLES : 
+    API_ENDPOINTS.production.FETCH_ARTICLES, {
         crossDomain: true,
         headers: header
 

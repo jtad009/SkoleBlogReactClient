@@ -46,14 +46,16 @@ class CardList extends React.Component {
                   key={this.props.posts[i].id}
                   id={this.props.posts[i].id}
                   title={this.props.posts[i].title}
-                  excerpt={new DOMParser().parseFromString(this.props.posts[i].article.substr(0, 50), "text/html").textContent}
-                  cover={this.props.posts[i].cover_image.length > 0 ? this.props.posts[i].cover_image : "avatar.png"}
+                  excerpt={this.props.posts[i].ExtractExcerpt}
+                  cover={this.props.posts[i].cover_image.length > 0 ? 'http://skole.com.ng/webroot/img/passport/blogs/' + this.props.posts[i].cover_image : 'https://skole.com.ng/webroot/img/slide/bg-post.jpg'}
                   slugs={this.props.posts[i].slug}
                   category={this.props.posts[i].category.category}
                   category_id={this.props.posts[i].category_id}
                   views={this.props.posts[i].view_count}
-                  author={this.props.posts[i].users != null ? this.props.posts[i].users.first_name : 'Skole'}
+                  author={this.props.posts[i].user != null ? this.props.posts[i].user.username : 'Skole'}
                   onclick={this.cardClick}
+                  created={this.props.posts[i].created}
+                  readTime={this.props.posts[i].readTime}
                 />
               );
             })
