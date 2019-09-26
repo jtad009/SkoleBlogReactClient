@@ -20,9 +20,9 @@ const Card = ({ id, title, excerpt, cover, slugs, category, views, author, categ
             <div className="card ">
                 <img src={image.src} alt={slugs} className="img-fluid cover" id={id} />
                 <div className="card-body">
-                    <h4>
-                        <a href="/articles/view/nc5TX" id={slugs} onClick={viewArticle} >{title}</a>
-                    </h4>
+                    <h5>
+                        <a href="/articles/view/nc5TX" id={id} onClick={viewArticle} >{title}</a>
+                    </h5>
                     <p>{excerpt}</p>
 
                 </div>

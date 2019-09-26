@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { articles } from '../src/article';
 import Display from './Components/DisplayComponent';
 import {BlogContext} from './Store/Store'
-class App extends Component {
+class App extends React.Component {
     static contextType = BlogContext;
     constructor(){
         super();
@@ -15,30 +15,35 @@ class App extends Component {
         
     }
     componentDidMount(){
-        const header = new Headers({
-            "Access-Control-Allow-Origin" : "*", 
-            "Access-Control-Allow-Credentials" : true ,
-            'Access-Control-Allow-Headers':'Origin, Content-Type, Authorization, X-Requested-With',
-            'Content-Type': 'application/json',
-            'Origin':'http://localhost:80/',
-            'Pragma':'no-cache',
-            'Cache-Control':'no-cache',
-            'Access-Control-Request-Method':'GET',
-            'Access-Control-Request-Headers':'access-control-allow-credentials,access-control-allow-headers,access-control-allow-origin,cache-control,content-type,pragma'
-           });
-        fetch('http://localhost:80/api/v1/articles/all',{
-            crossDomain:true,
-            headers:header
+        // const header = new Headers({
+        //     "Access-Control-Allow-Origin" : "*", 
+        //     "Access-Control-Allow-Credentials" : true ,
+        //     'Access-Control-Allow-Headers':'Origin, Content-Type, Authorization, X-Requested-With',
+        //     'Content-Type': 'application/json',
+        //     'Origin':'http://localhost:80/',
+        //     'Pragma':'no-cache',
+        //     'Cache-Control':'no-cache',
+        //     'Access-Control-Request-Method':'GET',
+        //     'Access-Control-Request-Headers':'access-control-allow-credentials,access-control-allow-headers,access-control-allow-origin,cache-control,content-type,pragma'
+        //    });
+        // fetch('http://localhost:80/api/v1/articles/all',{
+        //     crossDomain:true,
+        //     headers:header
 
-          })
-        .then(function(response){
-            console.log(response.headers);
-            return response.json();
-        })
-        .then(response=>console.log(response))
-        .catch(function(error){
-            console.log("Error "+error);
-        });
+        //   })
+        // .then(function(response){
+        //     console.log(response.headers);
+        //     return response.json();
+        // })
+        // .then((response)=>{
+        //     this.context.setState({
+        //         'articles':response.data    
+        //     })
+        //     console.log(response)
+        // })
+        // .catch(function(error){
+        //     console.log("Error "+error);
+        // });
         
     }
     onSearchChanged = (event) =>{

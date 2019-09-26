@@ -39,17 +39,17 @@ class CardList extends React.Component {
     // }else{
       return (
         <div className="row">
-          {this.props.posts.length === 0 ? <EmptyCard /> :
+          {this.props.posts.length === 0 ? <EmptyCard text=""/> :
             this.props.posts.map((article, i) => {
               return (
                 <Card
                   key={this.props.posts[i].id}
                   id={this.props.posts[i].id}
                   title={this.props.posts[i].title}
-                  excerpt={this.props.posts[i].article.substr(0, 50)}
+                  excerpt={new DOMParser().parseFromString(this.props.posts[i].article.substr(0, 50), "text/html").textContent}
                   cover={this.props.posts[i].cover_image.length > 0 ? this.props.posts[i].cover_image : "avatar.png"}
                   slugs={this.props.posts[i].slug}
-                  category={this.props.posts[i].categories.category}
+                  category={this.props.posts[i].category.category}
                   category_id={this.props.posts[i].category_id}
                   views={this.props.posts[i].view_count}
                   author={this.props.posts[i].users != null ? this.props.posts[i].users.first_name : 'Skole'}
