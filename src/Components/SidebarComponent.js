@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
-import { tags, categories, tagIDWithArticles, filterByCategory } from '../article';
+import React, { Component, useContext } from 'react';
+
 import Taglist from './TaglistComponent';
 import SelectTag from './SelectTagComponent';
 import SelectCategory from './CategoriesComponent';
-
+import { BlogContext } from '../Store/Store';
 
 
 const Sidebar = (props) => {
+    const {categories, tags}  = useContext(BlogContext);
+    
     return (
 
 
@@ -22,7 +24,7 @@ const Sidebar = (props) => {
 
                 </div>
                 <div className="d-none d-md-block">
-                    <Taglist tags={tags} articles={tagIDWithArticles[0].articles} />
+                    <Taglist tags={tags}  />
                 </div>
             </div>
         </div>

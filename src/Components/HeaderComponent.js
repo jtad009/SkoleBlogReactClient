@@ -31,11 +31,11 @@ const Header = (props) => {
                                     </div>
                                 </div>
                             </div>
-                            <div class="row ">
-                                <div class="col-lg-12 ">
+                            <div className="row ">
+                                <div className="col-lg-12 ">
                                     <ol class="breadcrumb bg-white">
-                                        <li class="breadcrumb-item"><a href="/blog" onClick={onReset}>Dashboard</a></li>
-                                        <li class="breadcrumb-item active text-muted">Articles </li>
+                                        <li className="breadcrumb-item"><a href="/blog" onClick={onReset}>Dashboard</a></li>
+                                        <li className="breadcrumb-item active text-muted">Articles </li>
                                     </ol>
                                 </div>
                             </div>

@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
-import { FaEye, FaUserCircle, FaFolderOpen } from "react-icons/fa";
+
 import { Route, Link } from "react-router-dom";
-import ViewPost from './ViewPostComponent';
+
 import { BlogContext } from '../Store/Store';
 import TimeAgo from 'react-timeago';
+
 const Card = ({ id, title, excerpt, cover, slugs, category, views, author, category_id, onclick, created, readTime }) => {
     var image = new Image();
     image.src =  cover;
@@ -30,19 +31,19 @@ const Card = ({ id, title, excerpt, cover, slugs, category, views, author, categ
                     </div>
                     <p>{excerpt}</p>
                 </div>
-                <div className="col-sm-12 pb-3">
-                    <div className="row">
+                <div className="card-footer">
+                    <div className="row ">
                        
-                        <div className="col-sm-6 p-0">
-                             <span className="col-lg-12 small text-muted ">Category<hr/></span>
+                        <div className="col-sm-8 p-0">
+                             <span className="col-lg-12 small text-muted ">Category</span>
                              <span className="col-lg-12 small text-muted p-0" id={category_id} onClick={onCategoryChange}>{category} </span>
                         </div>
-                        <div className="col-sm-6 p-0">
-                            <span className="col-lg-12 small text-muted p-0">Views<hr/></span>
+                        <div className="col-sm-4 p-0">
+                            <span className="col-lg-12  small text-muted ">Views</span>
                             <span className="col-lg-12 small text-muted p-0">{views}</span>
                         </div>
                     </div>
-           </div>
+                    </div>
             </div>
         </div>
 

@@ -7,7 +7,7 @@ class Taglist extends Component {
         super(props);
         this.state = {
             tag_id: '',
-            articles: this.props.articles
+          
         };
     }
 
@@ -24,7 +24,7 @@ class Taglist extends Component {
             this.props.tags.map((tag, i) => {
 
                 return (
-                    <Tag tag={this.props.tags[i].tag} id={this.props.tags[i].id}  />
+                    <Tag tag={this.props.tags[i].tag} id={this.props.tags[i].id}  count={this.props.tags[i].count} key={this.props.tags[i].id}  />
                 )
             })
         );

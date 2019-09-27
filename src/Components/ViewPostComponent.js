@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { FaArrowLeft, FaAngleRight, FaFolderOpen } from "react-icons/fa";
-import { articles } from '../article';
+
 import { BlogContext } from '../Store/Store';
 import { render } from 'react-dom';
 

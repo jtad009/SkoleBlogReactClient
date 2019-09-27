@@ -1,10 +1,10 @@
 import React, { Component, createContext } from 'react'
 import {
-    articles, tags, categories, tagIDWithArticles, filterByCategory,
-    loadArticles,
-    getArticleById
+   
+    loadArticles,loadCategories,loadTags,
+    getArticleById, API_ENDPOINTS
 } from '../article'
-import { Link, Switch, Redirect } from "react-router-dom";
+import {Redirect } from "react-router-dom";
 export const BlogContext = createContext();
 
 class ArticleContextProvider extends Component {
@@ -14,20 +14,51 @@ class ArticleContextProvider extends Component {
         articles: [],
         article: {},
         loading: true,
-
+        categories:[],
+        tags:[],
+        filteredArticles:[]
     }
     componentDidMount() {
+        loadCategories().then(res => res.json())
+        .then(response => {
+            console.log(response.response)
+            if(response.response.statusCode === 200){
+                this.setState({
+                    categories: response.response.data,
+               });
+            }
+            
+        }) ; 
+
+        loadTags().then(res => res.json())
+        .then(response => {
+            console.log(response.response)
+            if(response.response.statusCode === 200){
+                this.setState({
+                    tags: response.response.data,
+               });
+            }
+            
+        }) ;
+
         loadArticles()
         .then(resp => resp.json())
         .then(res=>{
-            console.log(res.response.data)
             this.setState({
-                articles: res.response.data,
-                loading: false
-            })
+                    articles: res.response.data,
+                    loading: false
+                });
+             
+           
+        }).catch(err => {
+            console.log(err)
+            // this.setState({
+            //     articles: [],
+            //     loading:false
+            // })
         });
-            
 
+        
 
     }
     onReset = (event) => {
@@ -62,24 +93,28 @@ class ArticleContextProvider extends Component {
         event.preventDefault();
         //this would make an api call and return result to the state
         var id = event.target.value || event.target.id;
-        console.log(id)
+        
         if (id.length === 0 || id === undefined) {
-            this.setState({
-                sortByCategory: false,
-                filterCriteria: '',
-                articles: articles,
-                article: {}
+            loadArticles()
+            .then(resp => resp.json())
+            .then(res=>{
+                this.setState({
+                        articles: res.response.data,
+                        loading: false
+                    });
+                 
+               
             });
         } else {
-            var filtered = filterByCategory[0].articles.filter(articles => {
+            var filtered = this.state.articles.filter(articles => {
                 return parseInt(articles.category_id) === parseInt(id)
             });
 
             this.setState({
                 sortByCategory: true,
                 filterCriteria: id,
-                articles: filtered,
-                article: {}
+                filteredArticles: filtered,
+                
             });
         }
 
@@ -89,24 +124,24 @@ class ArticleContextProvider extends Component {
 
         event.preventDefault();
         var id = event.target.value || event.target.id
-        if (id.length === 0) {
-            this.setState({
-                sortByCategory: false,
-                filterCriteria: '',
-                articles: articles,
-                article: {}
-            });
-        } else {
-            var filtered = tagIDWithArticles[0].articles.filter(articles => {
-                return parseInt(articles.pivot.tag_id) === parseInt(id)
-            });
-            this.setState({
-                sortByCategory: false,
-                filterCriteria: id,
-                articles: filtered,
-                article: {}
-            });
-        }
+        // if (id.length === 0) {
+        //     this.setState({
+        //         sortByCategory: false,
+        //         filterCriteria: '',
+        //         articles: articles,
+        //         article: {}
+        //     });
+        // } else {
+        //     var filtered = tagIDWithArticles[0].articles.filter(articles => {
+        //         return parseInt(articles.pivot.tag_id) === parseInt(id)
+        //     });
+        //     this.setState({
+        //         sortByCategory: false,
+        //         filterCriteria: id,
+        //         articles: filtered,
+        //         article: {}
+        //     });
+        // }
     };
     render() {
         return (

@@ -10,6 +10,11 @@
   src:url(fonts/Comfortaa-Regular.ttf);
 
  }
+
+ .border-grey{
+  border-color: #f7f7f7!important;
+  margin: 0;
+ }
  .tag {
   position: relative;
   display: inline-block;
@@ -301,7 +306,8 @@ header.masthead>.overlay {
  }
 html {
   position: relative;
-  min-height: 100%; }
+  min-height: 100%;
+ overflow-x: hidden; }
 
 body {
   overflow-x: hidden; 
