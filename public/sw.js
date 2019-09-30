@@ -8,7 +8,9 @@ const asset = [
     '/css/sb-admin.css',
     '/js/bootstrap.min.js',
     '/js/jquery.min.js',
-    '/script/js/'
+    '/script/js/',
+    '/img/bg-post.jpg',
+    '/img/skole.png'
     
 ];
 
@@ -50,3 +52,11 @@ self.addEventListener('fetch', evt => {
         })
     );
 });
+
+
+
+if(window.indexedDB){
+
+}else{
+    console.log("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
+}

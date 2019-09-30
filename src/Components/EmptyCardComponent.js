@@ -10,7 +10,7 @@ const EmptyCard = () => {
          <div className="card ">
             
             <div className="card-body">
-                <h4 className="text-muted text-center">{ loading ? <BallBeat color="#379392" loading /> : 'No Article Found'}</h4>
+                <h4 className="text-muted text-center">{ loading ? <BallBeat color="#379392" loading /> : 'No Article Found, Check to see you have a network connection.'}</h4>
                 
                 
             </div>

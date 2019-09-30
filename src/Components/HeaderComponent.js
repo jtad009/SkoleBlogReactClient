@@ -6,7 +6,7 @@ var divHeight = {
 };
 const Header = (props) => {
     const { article, onReset } = useContext(BlogContext);
-    var bg = article.length > 0 ? article[0].cover_image : 'Skole-cd03f.jpg';
+    var bg = article.length > 0 ? 'https://skole.com.ng/webroot/img/passport/blogs/'+article[0].cover_image : '/img/code_banner.jpg';
 
                    
     var divStyle = {
@@ -14,7 +14,7 @@ const Header = (props) => {
 
         WebkitTransition: 'all', // note the capital 'W' here
         msTransition: 'all', // 'ms' is the only lowercase vendor prefix
-        backgroundImage: 'url(https://skole.com.ng/webroot/img/passport/blogs/' + bg + ')',
+        backgroundImage: 'url(' + bg + ')',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
     };

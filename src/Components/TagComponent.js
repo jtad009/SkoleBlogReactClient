@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 
 import {BlogContext} from '../Store/Store';
 const Tag = ({id, tag, onclick, count})=>{

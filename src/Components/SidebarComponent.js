@@ -1,4 +1,4 @@
-import React, { Component, useContext } from 'react';
+import React, { useContext } from 'react';
 
 import Taglist from './TaglistComponent';
 import SelectTag from './SelectTagComponent';
@@ -17,7 +17,7 @@ const Sidebar = (props) => {
 
                 <SelectCategory categories={categories} />
 
-                <h5 className="hidden-xs mt-4 mt-2">Fliter By Tags <hr /></h5>
+                <h5 className="hidden-xs mt-4 mt-2 d-none d-md-block">Fliter By Tags <hr /></h5>
                 <div className="d-md-none">
 
                     <SelectTag tags={tags} />

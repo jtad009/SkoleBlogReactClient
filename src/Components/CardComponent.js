@@ -1,10 +1,7 @@
 import React, { useContext } from 'react';
-
-import { Route, Link } from "react-router-dom";
-
+import { FaEye, FaFolderOpen } from "react-icons/fa";
 import { BlogContext } from '../Store/Store';
 import TimeAgo from 'react-timeago';
-
 const Card = ({ id, title, excerpt, cover, slugs, category, views, author, category_id, onclick, created, readTime }) => {
     var image = new Image();
     image.src =  cover;
@@ -13,7 +10,7 @@ const Card = ({ id, title, excerpt, cover, slugs, category, views, author, categ
     };
     image.onerror = function () {
         //if image doesnt load then replace it with the avatar
-        document.getElementById(id).src = 'https://skole.com.ng/webroot/img/slide/bg-post.jpg';
+        document.getElementById(id).src = '/img/bg-post.jpg';
 
     };
     const { viewArticle, onCategoryChange } = useContext(BlogContext);
@@ -34,13 +31,13 @@ const Card = ({ id, title, excerpt, cover, slugs, category, views, author, categ
                 <div className="card-footer">
                     <div className="row ">
                        
-                        <div className="col-sm-8 p-0">
-                             <span className="col-lg-12 small text-muted ">Category</span>
-                             <span className="col-lg-12 small text-muted p-0" id={category_id} onClick={onCategoryChange}>{category} </span>
+                        <div className="col-sm-4 p-0">
+                             {/* <span className="col-lg-12 small text-muted p-0">Category</span><br/> */}
+                             <span className=" small text-muted p-0" id={category_id} onClick={onCategoryChange}><FaFolderOpen/>&nbsp;&nbsp;{category.charAt(0).toUpperCase()+category.slice(1)} </span>
                         </div>
                         <div className="col-sm-4 p-0">
-                            <span className="col-lg-12  small text-muted ">Views</span>
-                            <span className="col-lg-12 small text-muted p-0">{views}</span>
+                            {/* <span className="col-lg-12  small text-muted p-0">Views</span><br/> */}
+                            <span className=" small text-muted p-0"><FaEye/> &nbsp; &nbsp;{views}</span>
                         </div>
                     </div>
                     </div>

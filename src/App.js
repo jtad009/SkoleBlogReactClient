@@ -4,12 +4,7 @@ import Display from './Components/DisplayComponent';
 import { BlogContext } from './Store/Store'
 class App extends React.Component {
     static contextType = BlogContext;
-    constructor() {
-        super();
-
-
-
-    }
+    
     componentDidMount() {
 
 

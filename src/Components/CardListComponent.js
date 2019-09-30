@@ -2,9 +2,10 @@ import React from 'react';
 
 import Card from './CardComponent';
 import EmptyCard from './EmptyCardComponent';
-
+import {BlogContext} from '../Store/Store';
 
 class CardList extends React.Component {
+   static contextType = BlogContext;
   constructor(props) {
     
     super(props);
@@ -39,7 +40,7 @@ class CardList extends React.Component {
     // }else{
       return (
         <div className="row">
-          {this.props.posts.length === 0 ? <EmptyCard text=""/> :
+          {this.props.posts.length === 0 || this.context.loading ? <EmptyCard text=""/> :
             this.props.posts.map((article, i) => {
               return (
                 <Card

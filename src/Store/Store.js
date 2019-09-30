@@ -1,10 +1,10 @@
 import React, { Component, createContext } from 'react'
 import {
-   
-    loadArticles,loadCategories,loadTags,
-    getArticleById, API_ENDPOINTS
+
+    loadArticles, loadCategories, loadTags, loadArticlesByTagID, loadArticlesByCategoryID,
+
 } from '../article'
-import {Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 export const BlogContext = createContext();
 
 class ArticleContextProvider extends Component {
@@ -14,51 +14,51 @@ class ArticleContextProvider extends Component {
         articles: [],
         article: {},
         loading: true,
-        categories:[],
-        tags:[],
-        filteredArticles:[]
+        categories: [],
+        tags: [],
+        filteredArticles: []
     }
     componentDidMount() {
         loadCategories().then(res => res.json())
-        .then(response => {
-            console.log(response.response)
-            if(response.response.statusCode === 200){
-                this.setState({
-                    categories: response.response.data,
-               });
-            }
-            
-        }) ; 
+            .then(response => {
+
+                if (response.response.statusCode === 200) {
+                    this.setState({
+                        categories: response.response.data,
+                    });
+                }
+
+            });
 
         loadTags().then(res => res.json())
-        .then(response => {
-            console.log(response.response)
-            if(response.response.statusCode === 200){
-                this.setState({
-                    tags: response.response.data,
-               });
-            }
-            
-        }) ;
+            .then(response => {
+
+                if (response.response.statusCode === 200) {
+                    this.setState({
+                        tags: response.response.data,
+                    });
+                }
+
+            });
 
         loadArticles()
-        .then(resp => resp.json())
-        .then(res=>{
-            this.setState({
+            .then(resp => resp.json())
+            .then(res => {
+                this.setState({
                     articles: res.response.data,
                     loading: false
                 });
-             
-           
-        }).catch(err => {
-            console.log(err)
-            // this.setState({
-            //     articles: [],
-            //     loading:false
-            // })
-        });
 
-        
+
+            }).catch(err => {
+                console.log(err)
+                this.setState({
+                    articles: [],
+                    loading: false
+                })
+            });
+
+
 
     }
     onReset = (event) => {
@@ -67,23 +67,46 @@ class ArticleContextProvider extends Component {
         //     return res
         //      });   
         return <Redirect to='/' />
-        
+
+    };
+    searchChange = (event) => {
+        // event.preventDefault();
+
+        if (event.target.value) {
+            const data = this.state.articles.filter(article => {
+                return article.title.toLowerCase().includes(event.target.value.toLowerCase())
+            });
+            this.setState({
+                sortByCategory: false,
+                filterCriteria: '',
+                filteredArticles: data,
+            });
+            console.log(data);
+
+
+        }else{ // if search has no value then reset filtered to empty to articles show
+            this.setState({
+                sortByCategory: false,
+                filterCriteria: '',
+                filteredArticles: [],
+            });
+        }
     };
 
     viewArticle = (event) => {
         event.preventDefault();
 
         if (event.target.id) {
-            const data = this.state.articles.filter(article=>{
+            const data = this.state.articles.filter(article => {
                 return article.id === event.target.id
             });
             this.setState({
-                        sortByCategory: false,
-                        filterCriteria: '',
-                        article: data,
+                sortByCategory: false,
+                filterCriteria: '',
+                article: data,
             });
-            console.log(data);
-          
+
+
 
         }
     };
@@ -93,30 +116,19 @@ class ArticleContextProvider extends Component {
         event.preventDefault();
         //this would make an api call and return result to the state
         var id = event.target.value || event.target.id;
-        
-        if (id.length === 0 || id === undefined) {
-            loadArticles()
-            .then(resp => resp.json())
-            .then(res=>{
-                this.setState({
-                        articles: res.response.data,
-                        loading: false
-                    });
-                 
-               
-            });
-        } else {
-            var filtered = this.state.articles.filter(articles => {
-                return parseInt(articles.category_id) === parseInt(id)
-            });
+        this.setState({
+            loading: true
+        });
 
-            this.setState({
-                sortByCategory: true,
-                filterCriteria: id,
-                filteredArticles: filtered,
-                
+        loadArticlesByCategoryID(id).then(res => res.json())
+            .then(response => {
+                this.setState({
+                    sortByCategory: false,
+                    filterCriteria: id,
+                    articles: response.response.data.articles,
+                    loading: false
+                });
             });
-        }
 
     };
 
@@ -124,28 +136,23 @@ class ArticleContextProvider extends Component {
 
         event.preventDefault();
         var id = event.target.value || event.target.id
-        // if (id.length === 0) {
-        //     this.setState({
-        //         sortByCategory: false,
-        //         filterCriteria: '',
-        //         articles: articles,
-        //         article: {}
-        //     });
-        // } else {
-        //     var filtered = tagIDWithArticles[0].articles.filter(articles => {
-        //         return parseInt(articles.pivot.tag_id) === parseInt(id)
-        //     });
-        //     this.setState({
-        //         sortByCategory: false,
-        //         filterCriteria: id,
-        //         articles: filtered,
-        //         article: {}
-        //     });
-        // }
+        this.setState({
+            loading: true
+        });
+
+        loadArticlesByTagID(id).then(res => res.json())
+            .then(response => {
+                this.setState({
+                    sortByCategory: false,
+                    filterCriteria: id,
+                    articles: response.response.data.articles,
+                    loading: false
+                });
+            });
     };
     render() {
         return (
-            <BlogContext.Provider value={{ ...this.state, onCategoryChange: this.onCategoryChange, tagChange: this.tagChange, viewArticle: this.viewArticle, onReset: this.onReset }}>
+            <BlogContext.Provider value={{ ...this.state, onCategoryChange: this.onCategoryChange, tagChange: this.tagChange, viewArticle: this.viewArticle, onReset: this.onReset, searchChange: this.searchChange }}>
                 {this.props.children}
             </BlogContext.Provider>
         );
