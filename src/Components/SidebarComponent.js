@@ -7,11 +7,11 @@ import { BlogContext } from '../Store/Store';
 
 
 const Sidebar = (props) => {
-    const {categories, tags}  = useContext(BlogContext);
-    
+    const {categories, tags, article}  = useContext(BlogContext);
+    console.log(article.length )
     return (
 
-
+        article.length === undefined  ? 
         <div className="col-md-3 mb-2">
             <div id="mySidenav" className="sidenav" >
 
@@ -28,7 +28,7 @@ const Sidebar = (props) => {
                 </div>
             </div>
         </div>
-
+       : '' 
 
 
     );

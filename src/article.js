@@ -62,7 +62,10 @@ export async function loadArticlesByCategoryID(id) {
     })
     return await response;
 }
-
+/**
+ * Fetches Articles data from the API
+ * @returns  a promise
+ */
 export async function loadArticles() {
     const response = fetch(window.location.host.includes('localhost') ? 
     API_ENDPOINTS.dev.FETCH_ARTICLES : 

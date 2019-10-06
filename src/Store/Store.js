@@ -5,6 +5,7 @@ import {
 
 } from '../article'
 import { Redirect } from "react-router-dom";
+import { addData, displayPubList } from "../db";
 export const BlogContext = createContext();
 
 class ArticleContextProvider extends Component {
@@ -22,52 +23,58 @@ class ArticleContextProvider extends Component {
         loadCategories().then(res => res.json())
             .then(response => {
 
-                if (response.response.statusCode === 200) {
+                response.response.data.forEach(function (cat) {
+                    addData('categories', cat);
+                });
+                if (response.response.code === 200) {
                     this.setState({
                         categories: response.response.data,
                     });
                 }
 
-            });
+            }).catch(err => {
+                console.log("Error from failed connection or otherwise, search fro data on IndexDB");
+                displayPubList('categories').then(response => {
+                this.setState({
+                    categories: response,
+                        loading: false
+                    })
+                })
+            });;
 
         loadTags().then(res => res.json())
             .then(response => {
-
-                if (response.response.statusCode === 200) {
+                response.response.data.forEach(function (tag) {
+                    addData('tags', tag);
+                });//
+                if (response.response.code === 200) {
                     this.setState({
                         tags: response.response.data,
                     });
                 }
 
-            });
-
-        loadArticles()
-            .then(resp => resp.json())
-            .then(res => {
-                this.setState({
-                    articles: res.response.data,
-                    loading: false
-                });
-
-
             }).catch(err => {
-                console.log(err)
+                console.log("Error from failed connection or otherwise, search fro data on IndexDB");
+                displayPubList('tags').then(response => {
                 this.setState({
-                    articles: [],
-                    loading: false
+                        tags: response,
+                        loading: false
+                    })
                 })
             });
+        //     
+        this.fetchArticle();  
 
 
 
     }
     onReset = (event) => {
-        // event.preventDefault();
-        // var articleList = loadArticles().then(res=>{
-        //     return res
-        //      });   
-        return <Redirect to='/' />
-
+        event.preventDefault();
+        //Clear the data in kthe single article state as this will let us see the artlcle list
+        this.setState({
+            article: {}
+        })
+        
     };
     searchChange = (event) => {
         // event.preventDefault();
@@ -84,7 +91,7 @@ class ArticleContextProvider extends Component {
             console.log(data);
 
 
-        }else{ // if search has no value then reset filtered to empty to articles show
+        } else { // if search has no value then reset filtered to empty to articles show
             this.setState({
                 sortByCategory: false,
                 filterCriteria: '',
@@ -95,7 +102,6 @@ class ArticleContextProvider extends Component {
 
     viewArticle = (event) => {
         event.preventDefault();
-
         if (event.target.id) {
             const data = this.state.articles.filter(article => {
                 return article.id === event.target.id
@@ -105,9 +111,6 @@ class ArticleContextProvider extends Component {
                 filterCriteria: '',
                 article: data,
             });
-
-
-
         }
     };
 
@@ -116,6 +119,7 @@ class ArticleContextProvider extends Component {
         event.preventDefault();
         //this would make an api call and return result to the state
         var id = event.target.value || event.target.id;
+        if(id){
         this.setState({
             loading: true
         });
@@ -129,14 +133,17 @@ class ArticleContextProvider extends Component {
                     loading: false
                 });
             });
-
+        }else{
+            this.fetchArticle();  
+        }
     };
 
     tagChange = (event) => {
 
         event.preventDefault();
         var id = event.target.value || event.target.id
-        this.setState({
+        if(id){
+            this.setState({
             loading: true
         });
 
@@ -148,8 +155,35 @@ class ArticleContextProvider extends Component {
                     articles: response.response.data.articles,
                     loading: false
                 });
+            }).catch(err => {
+                
             });
+        }else{
+            this.fetchArticle();
+        }
     };
+    fetchArticle() {
+        loadArticles()
+            .then(resp => resp.json())
+            .then(res => {
+                res.response.data.forEach(function (article) {
+                    addData('articles', article);
+                });
+                this.setState({
+                    articles: res.response.data,
+                    loading: false
+                });
+            }).catch(err => {
+                console.log("Error from failed connection or otherwise, search fro data on IndexDB");
+                displayPubList('articles').then(response => {
+                    this.setState({
+                        articles: response,
+                        loading: false
+                    });
+                });
+            });
+    }
+
     render() {
         return (
             <BlogContext.Provider value={{ ...this.state, onCategoryChange: this.onCategoryChange, tagChange: this.tagChange, viewArticle: this.viewArticle, onReset: this.onReset, searchChange: this.searchChange }}>

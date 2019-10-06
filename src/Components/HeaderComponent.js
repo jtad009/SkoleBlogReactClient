@@ -6,6 +6,7 @@ var divHeight = {
 };
 const Header = (props) => {
     const { article, onReset } = useContext(BlogContext);
+    
     var bg = article.length > 0 ? 'https://skole.com.ng/webroot/img/passport/blogs/'+article[0].cover_image : '/img/code_banner.jpg';
 
                    
@@ -33,7 +34,7 @@ const Header = (props) => {
                             </div>
                             <div className="row ">
                                 <div className="col-lg-12 ">
-                                    <ol class="breadcrumb bg-white">
+                                    <ol className="breadcrumb bg-white">
                                         <li className="breadcrumb-item"><a href="/blog" onClick={onReset}>Dashboard</a></li>
                                         <li className="breadcrumb-item active text-muted">Articles </li>
                                     </ol>

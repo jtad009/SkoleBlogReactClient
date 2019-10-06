@@ -48,7 +48,7 @@ class CardList extends React.Component {
                   id={this.props.posts[i].id}
                   title={this.props.posts[i].title}
                   excerpt={this.props.posts[i].ExtractExcerpt}
-                  cover={this.props.posts[i].cover_image.length > 0 ? 'http://skole.com.ng/webroot/img/passport/blogs/' + this.props.posts[i].cover_image : 'https://skole.com.ng/webroot/img/slide/bg-post.jpg'}
+                  cover={this.props.posts[i].cover_image.length > 0 ? 'http://skole.com.ng/webroot/img/passport/blogs/' + this.props.posts[i].cover_image : 'img/bg-post.jpg'}
                   slugs={this.props.posts[i].slug}
                   category={this.props.posts[i].category.category}
                   category_id={this.props.posts[i].category_id}
