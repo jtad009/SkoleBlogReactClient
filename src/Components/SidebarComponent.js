@@ -8,7 +8,6 @@ import { BlogContext } from '../Store/Store';
 
 const Sidebar = (props) => {
     const {categories, tags, article}  = useContext(BlogContext);
-    console.log(article.length )
     return (
 
         article.length === undefined  ? 

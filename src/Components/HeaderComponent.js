@@ -5,8 +5,8 @@ var divHeight = {
     height: '300px'
 };
 const Header = (props) => {
-    const { article, onReset } = useContext(BlogContext);
-    
+    const { article, onReset,filterCriteria } = useContext(BlogContext);
+    console.log(filterCriteria);
     var bg = article.length > 0 ? 'https://skole.com.ng/webroot/img/passport/blogs/'+article[0].cover_image : '/img/code_banner.jpg';
 
                    
@@ -34,10 +34,16 @@ const Header = (props) => {
                             </div>
                             <div className="row ">
                                 <div className="col-lg-12 ">
+                                {filterCriteria.type !== undefined ? 
                                     <ol className="breadcrumb bg-white">
-                                        <li className="breadcrumb-item"><a href="/blog" onClick={onReset}>Dashboard</a></li>
-                                        <li className="breadcrumb-item active text-muted">Articles </li>
-                                    </ol>
+                                        <li className="breadcrumb-item"><a href="/blog" onClick={onReset}  id="reset">All Post</a></li>
+                                       <li className="breadcrumb-item active text-muted">{filterCriteria.type} </li>
+                                        <li className="breadcrumb-item active text-muted">{filterCriteria.title} </li>
+                                   </ol>
+                                     : 
+                                     <ol className="breadcrumb bg-white">
+                                        <li className="breadcrumb-item"><a href="/blog" onClick={onReset}  id="reset">All Post</a></li>
+                                    </ol>}
                                 </div>
                             </div>
                         </header>

@@ -4,20 +4,21 @@ import {
     loadArticles, loadCategories, loadTags, loadArticlesByTagID, loadArticlesByCategoryID,
 
 } from '../article'
-import { Redirect } from "react-router-dom";
+
 import { addData, displayPubList } from "../db";
 export const BlogContext = createContext();
 
 class ArticleContextProvider extends Component {
     state = {
         sortByCategory: false,
-        filterCriteria: '',
+        filterCriteria: {},
         articles: [],
         article: {},
         loading: true,
         categories: [],
         tags: [],
-        filteredArticles: []
+        filteredArticles: [],
+        articleLength:0
     }
     componentDidMount() {
         loadCategories().then(res => res.json())
@@ -71,8 +72,15 @@ class ArticleContextProvider extends Component {
     onReset = (event) => {
         event.preventDefault();
         //Clear the data in kthe single article state as this will let us see the artlcle list
+        if(event.target.id === "reset"){
+            this.setState({
+                loading: true
+            });
+            this.fetchArticle()
+        }
         this.setState({
-            article: {}
+            article: {},
+            filterCriteria: {}
         })
         
     };
@@ -128,7 +136,7 @@ class ArticleContextProvider extends Component {
             .then(response => {
                 this.setState({
                     sortByCategory: false,
-                    filterCriteria: id,
+                    filterCriteria: {'id':id,title:response.response.data.category, type:'Category'},
                     articles: response.response.data.articles,
                     loading: false
                 });
@@ -151,7 +159,7 @@ class ArticleContextProvider extends Component {
             .then(response => {
                 this.setState({
                     sortByCategory: false,
-                    filterCriteria: id,
+                    filterCriteria: {'id':id,title: response.response.data.tag,type:'Tag'},
                     articles: response.response.data.articles,
                     loading: false
                 });
@@ -162,7 +170,8 @@ class ArticleContextProvider extends Component {
             this.fetchArticle();
         }
     };
-    fetchArticle() {
+
+     fetchArticle = () => {
         loadArticles()
             .then(resp => resp.json())
             .then(res => {
@@ -171,14 +180,16 @@ class ArticleContextProvider extends Component {
                 });
                 this.setState({
                     articles: res.response.data,
-                    loading: false
+                    loading: false,
+                    articleLength:res.response.length
                 });
             }).catch(err => {
                 console.log("Error from failed connection or otherwise, search fro data on IndexDB");
                 displayPubList('articles').then(response => {
                     this.setState({
                         articles: response,
-                        loading: false
+                        loading: false,
+                        articleLength:0
                     });
                 });
             });

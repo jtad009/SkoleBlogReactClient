@@ -29,17 +29,15 @@ export const API_ENDPOINTS={
         'FETCH_ARTICLE_BY_CATEGORYID':'https://skole.com.ng/blog/api/v1/categories/view/',
     }
 };
-export function getArticleById(id) {
-    return fetch(window.location.host.includes('localhost') ? 
-    API_ENDPOINTS.dev.GET_ARTICLE_BY_ID + id: 
-    API_ENDPOINTS.production.GET_ARTICLE_BY_ID + id, {
+
+export async function getArticleById(id) {
+    const response = await fetch(window.location.host.includes('localhost') ?
+        API_ENDPOINTS.dev.GET_ARTICLE_BY_ID + id :
+        API_ENDPOINTS.production.GET_ARTICLE_BY_ID + id, {
         crossDomain: true,
         headers: header
-
-    }). then((response) => {
-
-        return response.json();
     });
+    return response.json();
 }
 
 export async function loadArticlesByTagID(id) {
