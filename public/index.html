@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="css/bootstrap.min.css" />
   <link rel="stylesheet" href="css/sb-admin.css" />
   <link rel="stylesheet" href="css/suggestion_tooltip.css" />
-
+  <link rel="stylesheet" href="css/fab.css" />
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/popper/popper.min.js"></script>
@@ -54,5 +54,32 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 </body>
-
+<script>
+$(function(){
+	$(".fab,.backdrop").click(function(){
+		if($(".backdrop").is(":visible")){
+			$(".backdrop").fadeOut(125);
+			$(".fab.child")
+				.stop()
+				.animate({
+					bottom	: $("#masterfab").css("bottom"),
+					opacity	: 0
+				},125,function(){
+					$(this).hide();
+				});
+		}else{
+			$(".backdrop").fadeIn(125);
+			$(".fab.child").each(function(){
+				$(this)
+					.stop()
+					.show()
+					.animate({
+						bottom	: (parseInt($("#masterfab").css("bottom")) + parseInt($("#masterfab").outerHeight()) + 70 * $(this).data("subitem") - $(".fab.child").outerHeight()) + "px",
+						opacity	: 1
+					},125);
+			});
+		}
+	});
+});
+</script>
 </html>

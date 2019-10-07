@@ -10,6 +10,7 @@ const Display = (props) => {
     return (
         <div className="col-lg-8 col-md-10 mx-auto">
             {article.length > 0 ? <ViewPost  /> : <CardList posts={filteredArticles.length > 0 ? filteredArticles : articles} />}
+           
         </div>
     );
 

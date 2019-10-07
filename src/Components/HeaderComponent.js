@@ -6,7 +6,7 @@ var divHeight = {
 };
 const Header = (props) => {
     const { article, onReset,filterCriteria } = useContext(BlogContext);
-    console.log(filterCriteria);
+   
     var bg = article.length > 0 ? 'https://skole.com.ng/webroot/img/passport/blogs/'+article[0].cover_image : '/img/code_banner.jpg';
 
                    

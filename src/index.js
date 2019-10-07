@@ -11,25 +11,32 @@ import Header from './Components/HeaderComponent';
 import Navbar from './Components/NavComponent';
 import ArticleContextProvider from './Store/Store'
 // const {Provider, Consumer} = React.createContext()
+import Fab from './Components/FabComponent';
+import Container from './Components/Author/ContainerComponent';
+
 ReactDOM.render(
     <ArticleContextProvider>
         <Router>
+        
+           
         <div>
             <Navbar/>
             <Header/>
             <div className="container-fluid mt-3">
                 <div className="row">
+                    <Route path='/auth' exact strict component={Container} />
                     <Sidebar />
-                    <Route path='/' exact strict component={App} />
-                    <Route path='/articles/view/:slug' exact strict component={ViewPost} />
-                    <Route path='/article/tags/:id' exact strict component={TagFiltered} />
-                    <Route path='/article/categories/:id' exact strict  component={TagFiltered} />
+                    <Route path='/' exact strict component={App}/>
+                    <Fab/>
+                        
+                    
                 </div>
             </div>
         </div>
+        
     </Router>
 
-   
+
     </ArticleContextProvider>
      , document.getElementById('root'));
 
