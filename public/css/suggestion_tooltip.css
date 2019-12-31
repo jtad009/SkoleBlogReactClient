@@ -14,11 +14,56 @@ and open the template in the editor.
 .rfloat {
     float: right;
 }
+.uiInlineTokenizer.tokenarea span{
+    /* display:inline-block !important; */
+}
+#searchParam {
+    border: 5px solid rgba(55, 147, 146);
+    height: 60px;
+    
+    font-size:24px
+}
+.person_image{
+	position: relative;
+	display: block;
+	padding: .45rem .45rem;
+	-webkit-box-sizing: border-box;
+	max-width:80px;
+	/* box-shadow: #ccc 1px 1px 1px 1px; */
+	white-space: nowrap;
+	background:#007bff;
+	color:white;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+    font-size: 20px;
+    float:left
+}
+.uiToken2{
+	background: #fff !important;
+	/* border: 1px solid #379392; */
+	-webkit-border-radius:2px;
+	color: #1e2d4c;
+	cursor:default;
+	display: inline;
+	float:left;
+	line-height: 30px;
+	height: 60px;
+	margin:0 4px 4px 0;
+	padding: 10px 5px;
+	position:relative;
+	white-space:nowrap;
+	font-size: 18px;
+	border-radius: 4px;
+	box-shadow: 1px 1px #ccc;
+	min-width: 90px;
+	/* line-height: 38px; */
+}
 .uiToken{
-	background:#e9eaed;
+	background: #fff !important;
 	border: 1px solid #379392;
 	-webkit-border-radius:2px;
-	color:#1e2d4c;
+	color: #1e2d4c;
 	cursor:default;
 	display:block;
 	float:left;
@@ -29,6 +74,7 @@ and open the template in the editor.
 	position:relative;
 	white-space:nowrap;
 	font-size: 14px;
+	border-radius: 4px;
 }
 .suggestions{display:block;width:140px;box-shadow:0px 2px #000;position:relative;height:50px}
 .uiTypeahead{border:0}
@@ -44,16 +90,16 @@ and open the template in the editor.
 .uiCloseButtonSmall{height:11px;width:11px}
 .uiCloseButton{cursor:pointer;display:inline-block;padding:0;zoom:1}
 ._5p3y .fbChatSidebar, ._5p3y .fbDock, ._5p3y .fbFeedTicker .fbFeedTickerStory .tickerFeedMessage, ._5p3y .fbFeedTicker .fbFeedTickerStory div.tickerFeedMessage h5, ._5p3y .fbFeedTicker .fbFeedTickerStory div.tickerFeedMessage h6, ._5p3y .tickerDialogContent .uiStream .uiStreamMessage, ._5p3y .tickerDialogContent .uiStream .text_exposed_link, ._5p3y .uiTooltipX .tooltipContent{line-height:16px;font-size:12px}
-.uiContextualLayerPositioner{height:0;position:absolute;z-index:200}
+.uiContextualLayerPositioner{height:0;position:absolute;z-index: 200;}
 .uiLayer{outline:none}
 .uiContextualLayer{position:absolute;}
 div.uiInlineTokenizerView{width:200px}
 .uiContextualTypeaheadView{position:static}
 .uiTypeaheadView{display:block;left:0;top:100%}
 ._5vb_, ._5vb_ #contentCol{color:#141823}
-.uiTypeaheadView ul{background:#fff;border:solid;border-width:1px 1px 2px;border-color:#333 #333 #293e6a;overflow:hidden;padding:2px 0;}
+.uiTypeaheadView ul{background:#fff;border:solid;border-width:1px 1px 2px;border-color:#333 #333 #293e6a;overflow:hidden;padding:2px 0;position: absolute;z-index: 9999999990000000;}
 .uiTypeaheadView .compact li{min-height:32px;padding:2px 10px 2px 45px}
-.uiTypeaheadView li{border:solid #fff;border-width:1px 0;color:#333;cursor:pointer;display:block;position:relative}
+.uiTypeaheadView li{border:solid #fff;border-width:1px 0;color:#333;cursor:pointer;display:block;position: relative;/* z-index: 999999; */}
 .uiTypeaheadView .compact .splitpics, .uiTypeaheadView .compact img{display:block;height:32px;left:6px;position:absolute;width:32px}
 .uiTypeaheadView .compact .text{font-weight:bold}
 .uiTypeaheadView .text, .uiTypeaheadView .subtext, .uiTypeaheadView .category{display:block;overflow:hidden;padding-bottom:2px;text-overflow:ellipsis;white-space:nowrap}

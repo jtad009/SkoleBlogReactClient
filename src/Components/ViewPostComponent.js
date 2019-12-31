@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FaArrowLeft, FaAngleRight, FaFolderOpen } from "react-icons/fa";
 
 import { BlogContext } from '../Store/Store';
-
-import {API_ENDPOINTS} from '../article';
+import CardList from './CardListComponent';
+import {API_ENDPOINTS, loadArticlesByCategoryID} from '../article';
 import TagsV2 from './TagsV2'
 import UserCard from './UserCardComponent'
 
 const ViewPost = (params) => {
+    const [similar, setSimilar] = useState([]);
     const capName = (name) => {
         return name.charAt(0).toUpperCase()+name.slice(1)
     }
@@ -23,6 +24,14 @@ const ViewPost = (params) => {
         image.src = '/img/avatar.png';
 
     };
+    useEffect(() => {
+        loadArticlesByCategoryID(article[0].category_id)
+        .then(res => res.json())
+        .then(response => {
+            // console.log(response)
+            setSimilar( response.response.data.articles)
+        })
+    },[])
     return (
         
         <div className="text-justify bg-white p-3">
@@ -43,7 +52,9 @@ const ViewPost = (params) => {
 
             <div dangerouslySetInnerHTML={{ __html: body }}></div>
              {article[0].tags.length !== undefined ? <TagsV2 tags={article[0].tags}/> : ''}
-           
+
+            <p className="text-muted font-weight-bold mt-3 text-uppercase">Related Articles</p>
+            {similar.length > 0 ?  <CardList posts={similar} /> : ''}
         </div>
 
 

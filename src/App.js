@@ -1,10 +1,11 @@
 import React from 'react';
-
+import Sidebar from './Components/SidebarComponent';
 import Display from './Components/DisplayComponent';
+import CategoriesComponent from './Components/categories/categoryComponent';
 import { BlogContext } from './Store/Store'
 class App extends React.Component {
     static contextType = BlogContext;
-    
+
     componentDidMount() {
 
 
@@ -21,9 +22,13 @@ class App extends React.Component {
         //     return articles.title.toLowerCase().includes(this.state.searchField.toLowerCase())
         // });
         return (
+            <div className="row">
 
-            <Display />
-
+                 <div className="col-sm-12 mb-2"><CategoriesComponent  /></div>  
+           
+                <Sidebar />
+                <Display />
+            </div>
         );
     }
 

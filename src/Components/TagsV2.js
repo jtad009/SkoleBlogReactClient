@@ -1,64 +1,56 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { BlogContext } from '../Store/Store';
+
 /**
  * @param tags
  * @param view boolean to know if the tag list is for view or when adding tags
+ * @param tagCount Number of items under this  tag
  */
-const TagsV2 = (tags,view = true) => {
-  return (
-        <div className="_1sk6" style={{"bottom" : "0px"}}>
-        <div className="_54_v">
-            <div className="clearfix">
-                
-                <div className="_54_w _42ef">
-                    <div className="clearfix uiTokenizer uiInlineTokenizer"><b>TAGS</b>
-                        <div className="tokenarea" id="tokenarea">
+const TagsV2 = ({ tags, view = true, filter = null, loading = false, tagCount = 0 }) => {
+    const { findTag, tagChange } = useContext(BlogContext)
+    return (
+        <div className="_1sk6" style={{ "bottom": "0px" }}>
+            <div className="_54_v">
+                <div className="clearfix">
+
+                    <div className="_54_w _42ef">
+                        <div className="clearfix uiTokenizer uiInlineTokenizer">
+                            <div className="tokenarea" id="tokenarea">
                                 {
-                                    tags.tags.map((tag, i) => {
-                                return (
-                                
-                                    <span className="removable uiToken">
-                                        <span className="uiTokenText">{tag.tag}</span>
-                                       { ( 
-                                           view ? '' :
-                                        <div><input name="tags[]" id="feature" autoComplete="off" type="hidden" value={tag.tag}/>
-                                        <a href="#" aria-label="Remove j" className="remove uiCloseButton uiCloseButtonSmall" style={{textDecoration: 'none',}} id="remove">×</a>
-                                        </div>
-                                       )
-                                       }
-                                    </span>
-                                )
-                    
-                })
-        }
-                          
-                        </div>
-                        { ( 
-                                           view ? '' :
-                        <div className="uiTypeahead" id="js_8">
-                            <div className="wrap">
-                                <input type="hidden" autoComplete="off" className="hiddenInput" value=""/>
-                                <div className="innerWrap">
-                                    <input type="text" className="inputtext textInput" id="inputtext" style={{width: '20px',border:'none',outline:'none'}}/>
-                                    <div className="uiContextualLayerPositioner uiLayer hidden_elem" data-ownerid="js_e" style={{'width': '454px', 'left': '26px'}}>
-                                        <div className="uiContextualLayer uiContextualLayerBelowLeft">
-                                            <div style={{'width': '34px'}}>
-                                                <div className="uiTypeaheadView uiContextualTypeaheadView uiInlineTokenizerView hidden_elem">
-                                                    <ul className="compact" id="typeahead_list_js_e" role="listbox">
-    
-                                                    </ul>
-                                                </div>
+                                    tags.map((tag, i) => {
+                                        return (
+
+                                            <span className="removable uiToken" key={tag.id}>
+                                                {view ? <a key={tag.id} href="/" className="tag" id={tag.id} style={{ textDecoration: 'none', paddingRight: '5px' }} onClick={tagChange} >
+                                                    <span className="uiTokenText">{tag.tag}</span>
+                                                </a> : ''}
+                                                {view ? '' : <span className="uiTokenText">{tag.tag}</span>}
+                                                {view ? '' : <input name="tags[]" id="feature" autoComplete="off" type="hidden" value={tag.tag} />}
+                                                {view ? <span className="num" style={{ color: '#e33545', fontSize: '11px' }}>{tag.count}</span> : <a href="#" aria-label="Remove j" className="remove uiCloseButton uiCloseButtonSmall" style={{ textDecoration: 'none', }} id="remove">×</a>}
+                                            </span>
+                                        )
+
+                                    })
+                                }
+
+                            </div>
+                            {(
+                                view ? '' :
+                                    <div className="uiTypeahead" style={{ position: 'static', }} id="js_8">
+                                        <div className="wrap" style={{ position: 'absolute', width: '40px' }}>
+                                            <input type="hidden" autoComplete="off" className="hiddenInput" value="" />
+                                            <div className="innerWrap">
+
+
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                            )}
                         </div>
-                        )}
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     );
 }
 

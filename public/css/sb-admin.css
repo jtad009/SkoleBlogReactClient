@@ -10,8 +10,27 @@
   src:url(fonts/Comfortaa-Regular.ttf);
 
  }
+ nav{
+  background:transparent;
+  background-image:none;
+  border-color:transparent;
+  box-shadow:none;
+ }
 .list-group-item {
   border: 1px solid #fff !important;
+}
+
+.main .tokenarea{
+  
+  display: flex;
+  overflow-x: auto;
+  margin-bottom:5px;
+  
+}
+
+.main .tokenarea span.uiToken{
+  flex-shrink: 0;
+  
 }
  .border-grey{
   border-color: #f7f7f7!important;

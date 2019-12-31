@@ -6,7 +6,7 @@ class SelectCategory extends Component {
     render() {
         const { onCategoryChange } = this.context;
         return (
-            <select className="form-control mb-3" key="cats" onChange={onCategoryChange}>
+            <select className="form-control mb-3" key="cats" onChange={onCategoryChange} name="category_id" id="category_id">
                 <option key="cat23" value=""> Filter by category </option>
                 {
                     this.props.categories.map((tag, i) => {

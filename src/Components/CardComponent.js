@@ -28,19 +28,7 @@ const Card = ({ id, title, excerpt, cover, slugs, category, views, author, categ
                     </div>
                     <p>{excerpt}</p>
                 </div>
-                <div className="card-footer">
-                    <div className="row ">
-                       
-                        <div className="col-sm-6 p-0">
-                             {/* <span className="col-lg-12 small text-muted p-0">Category</span><br/> */}
-                             <span className=" small text-muted p-0" id={category_id} onClick={onCategoryChange}><FaFolderOpen/>&nbsp;&nbsp;{category.charAt(0).toUpperCase()+category.slice(1)} </span>
-                        </div>
-                        <div className="col-sm-4 p-0">
-                            {/* <span className="col-lg-12  small text-muted p-0">Views</span><br/> */}
-                            <span className=" small text-muted p-0"><FaEye/> &nbsp; &nbsp;{views}</span>
-                        </div>
-                    </div>
-                    </div>
+                
             </div>
         </div>
 

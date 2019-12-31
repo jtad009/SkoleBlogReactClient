@@ -1,19 +1,37 @@
 import React, {useContext} from 'react';
-
-const Auth = () => {
+import Register from './RegisterComponent';
+import {Link,Switch,Route, Redirect} from 'react-router-dom';
+import { BlogContext } from '../../Store/Store';
+import { BallBeat } from 'react-pure-loaders';
+import App from '../../App';
+const Auth = (props ) => {
+    const {changeUserValues,login, loggedIN,loading,authError} = useContext(BlogContext);
+    if(loggedIN){
+       return (
+           <Switch>
+                <Redirect to='/'/>
+               <Route path="/" exact strict component={App}/>
+           </Switch>
+       )
+    }
     return (
-        <div className="card card-login mx-auto mt-1">
+        
+        <div>
+            {authError ? <div class="col-sm-6 mx-auto mt-5">
+                <div class="alert alert-danger" onclick="this.classList.add('hidden');">Authentication error, you have supplied wrong credentials. Try Again or contact your admin.</div>
+            </div>: <p></p>}
+        <div className="card card-login mx-auto mt-1 ">
      
             <div className="card-body">
                  <h4 className="card-title text-center big">LOGIN<hr className="line"/></h4>
-                <form method="post" accept-charset="utf-8" action="/skole/blog/authors/login"><div style={{display:"none"}}><input type="hidden" name="_method" value="POST"/></div>         
+                <form onSubmit={login}method="post" acceptCharset="utf-8" action="/skole/blog/authors/login"><div style={{display:"none"}}><input type="hidden" name="_method" value="POST"/></div>         
                         <div className="form-group">
-                            <label for="exampleInputEmail1">Username</label>
-                            <input className="form-control" id="exampleInputEmail1" type="text" name="username" aria-describedby="emailHelp" placeholder="Enter username"/>
+                            <label htmlFor="exampleInputEmail1">Username</label>
+                            <input onChange={changeUserValues} className="form-control" id="username" type="text" name="username" aria-describedby="emailHelp" placeholder="Enter username"/>
                         </div>
                     <div className="form-group">
-                        <label for="exampleInputPassword1">Password</label>
-                        <input className="form-control" id="exampleInputPassword1" type="password" name="password" placeholder="Password"/>
+                        <label htmlFor="exampleInputPassword1">Password</label>
+                        <input className="form-control" onChange={changeUserValues} id="password" type="password" name="password" placeholder="Password"/>
                     </div>
                     <div className="form-group">
                         <div className="form-check">
@@ -21,15 +39,18 @@ const Auth = () => {
                             <input className="form-check-input" type="checkbox"/> Remember Password</label>
                         </div>
                     </div>
-                    <input className="btn btn-primary btn-block" type="submit" value="Login"/>
-                    
+                   
+                   { loading ? <h4 className="text-muted text-center"> <BallBeat color="#379392" loading /> </h4>: 
+                <input className="btn btn-primary btn-block" type="submit" value="Login"/>}
                 </form>       
                 <div className="text-center">
-                        <a href="/skole/blog/authors/add" className="pull-right mt-3 small text-danger">Author Registration</a>         
-                        <a href="/skole/blog/users/forgot" className="pull-right small mt-3 mr-3 text-danger">Forgot Password?</a>          
+                        <a href="/register" className="pull-right mt-3 small text-danger" style={{float:'right'}}>Author Registration</a>      
+                        <Route path='/register' exact strict component={Register} />   
+                        <a href="/skole/blog/users/forgot" className="pull-right small mt-3 mr-3 text-danger" style={{float:'right'}}>Forgot Password?</a>          
                 </div>
        
              </div>
+        </div>
         </div>
     );
 }

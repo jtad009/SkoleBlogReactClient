@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -6,13 +6,15 @@ import { BrowserRouter as Router, Route} from "react-router-dom";
 // import * as serviceWorker from './serviceWorker';
 import ViewPost from './Components/ViewPostComponent';
 import TagFiltered from './Components/TagFilteredComponent';
-import Sidebar from './Components/SidebarComponent';
+
 import Header from './Components/HeaderComponent';
 import Navbar from './Components/NavComponent';
-import ArticleContextProvider from './Store/Store'
+import ArticleContextProvider, { BlogContext } from './Store/Store'
 // const {Provider, Consumer} = React.createContext()
 import Fab from './Components/FabComponent';
 import Container from './Components/Author/ContainerComponent';
+import Register from './Components/Author/RegisterComponent';
+import AddArticle from './Components/Author/ArticleAddComponent';
 
 ReactDOM.render(
     <ArticleContextProvider>
@@ -22,15 +24,19 @@ ReactDOM.render(
         <div>
             <Navbar/>
             <Header/>
+            <Route path='/auth' exact strict component={Container} />
+            <Route path='/register' exact strict component={Register} />
+            <Route path='/write' exact strict component={AddArticle} />
+            
             <div className="container-fluid mt-3">
-                <div className="row">
-                    <Route path='/auth' exact strict component={Container} />
-                    <Sidebar />
+                {/* <div className="row"> */}
+                   
+                    
                     <Route path='/' exact strict component={App}/>
                     <Fab/>
                         
                     
-                </div>
+                {/* </div> */}
             </div>
         </div>
         

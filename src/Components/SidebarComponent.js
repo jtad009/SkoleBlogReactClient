@@ -14,7 +14,7 @@ const Sidebar = (props) => {
         <div className="col-md-3 mb-2">
             <div id="mySidenav" className="sidenav" >
 
-                <SelectCategory categories={categories} />
+                {/* <SelectCategory categories={categories} /> */}
 
                 <h5 className="hidden-xs mt-4 mt-2 d-none d-md-block">Fliter By Tags <hr /></h5>
                 <div className="d-md-none">

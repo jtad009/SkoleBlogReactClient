@@ -9,7 +9,7 @@ class CardList extends React.Component {
   constructor(props) {
     
     super(props);
-    // console.log(this.props);
+   
     this.state = {
       posts: this.props.posts,
       article_id: '',

@@ -1,5 +1,5 @@
-const staticCacheName = 'skole-blog-cache-v2';
-const dynamicCacheName = 'skole-blog-dynamic-cache-v2'
+const staticCacheName = 'skole-blog-cache-v1';
+const dynamicCacheName = 'skole-blog-dynamic-cache-v1'
 const asset = [
     '/',
     '/index.html',

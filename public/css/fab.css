@@ -5,7 +5,7 @@
 @fab-child-margin: (@fab-size - @fab-child-size) / 2 + @fab-margin;
 
 .fab{
-	padding-left: 5px;
+	padding-left: 2px;
 	padding-top: 5px;
 	background: #e33545;
 	width: 64px;
@@ -32,7 +32,7 @@
 	height: 42px;
 	display: none;
 	opacity: 0;
-	font-size: 25px;
+	font-size: 22px;
 	padding: 7px;
 }
 
