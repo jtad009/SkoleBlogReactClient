@@ -15,7 +15,7 @@ const Display = (props) => {
       }
     return (
         <div className="col-lg-8 col-md-9 mx-auto main">
-             
+            
             {article.length > 0 ? <ViewPost  /> : <CardList posts={filteredArticles.length > 0 ? filteredArticles : articles} />}
             {articles.length > 0 ?  <div className="paginator"><Pagination
                  activePage={activePage}

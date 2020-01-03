@@ -16,21 +16,34 @@
   border-color:transparent;
   box-shadow:none;
  }
+ .sticky{
+   /* position: relative !important; */
+   position: fixed;
+   position: -webkit-sticky;
+   bottom: 0px;
+   width: 100%;
+   left: 1px;
+ }
 .list-group-item {
   border: 1px solid #fff !important;
 }
 
-.main .tokenarea{
+.categories .tokenarea{
   
-  display: flex;
+display: flex;
   overflow-x: auto;
+  overflow-y: hidden;
   margin-bottom:5px;
-  
 }
-
-.main .tokenarea span.uiToken{
+.categories .tokenarea::-webkit-scrollbar{width:2px; height:2px}
+.categories .tokenarea::-webkit-scrollbar-button{width:2px; height:2px}
+.main .card .card-body{
+  max-height: 200px;
+  padding-bottom: 0px;
+  font-size: 13px;
+}
+.categories .tokenarea span.uiToken2{
   flex-shrink: 0;
-  
 }
  .border-grey{
   border-color: #f7f7f7!important;
@@ -63,7 +76,7 @@ header.masthead .page-heading, header.masthead .site-heading{
   border-radius: 0 !important;
 }
 header.masthead {
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
   background: no-repeat center center;
   background-color: rgba(0, 0, 0, 0);
   background-attachment: scroll;
@@ -103,7 +116,7 @@ header.masthead>.overlay {
   float: left;
 }
  .cover{
-  max-height:204px !important;
+  max-height: 174px !important;
  }
 .skole-checkbox-div{
   width: 120px;

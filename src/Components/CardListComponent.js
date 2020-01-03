@@ -57,6 +57,7 @@ class CardList extends React.Component {
                   onclick={this.cardClick}
                   created={this.props.posts[i].created}
                   readTime={this.props.posts[i].readTime}
+                  author_id={this.props.posts[i].user_id}
                 />
               );
             })

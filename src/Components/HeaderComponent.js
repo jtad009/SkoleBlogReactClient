@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { BlogContext } from '../Store/Store';
-import { Route } from 'react-router-dom';
-import App from '../App';
+import { Offline } from "react-detect-offline";
 import SearchBox from './SearchBoxComponent';
 var divHeight = {
     height: '300px'
@@ -52,6 +51,13 @@ const Header = (props) => {
                             {window.location.href.includes('write') ? <li className="breadcrumb-item active text-muted">Add</li> : ''}
                         </ol>}
                 </div>
+                <Offline>
+            
+                <div className="col-sm-12 mx-auto ">
+                    <div class="alert alert-danger" onclick="this.classList.add('hidden');">Currently offline. Check internet connection</div>
+                </div>
+            
+             </Offline>
             </div>
         </header>
 

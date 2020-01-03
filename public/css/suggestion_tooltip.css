@@ -14,9 +14,7 @@ and open the template in the editor.
 .rfloat {
     float: right;
 }
-.uiInlineTokenizer.tokenarea span{
-    /* display:inline-block !important; */
-}
+
 #searchParam {
     border: 5px solid rgba(55, 147, 146);
     height: 60px;
@@ -41,11 +39,10 @@ and open the template in the editor.
 }
 .uiToken2{
 	background: #fff !important;
-	/* border: 1px solid #379392; */
+	border:1px solid #799898a8;
 	-webkit-border-radius:2px;
 	color: #1e2d4c;
 	cursor:default;
-	display: inline;
 	float:left;
 	line-height: 30px;
 	height: 60px;
@@ -56,7 +53,7 @@ and open the template in the editor.
 	font-size: 18px;
 	border-radius: 4px;
 	box-shadow: 1px 1px #ccc;
-	min-width: 90px;
+	/* min-width: 90px; */
 	/* line-height: 38px; */
 }
 .uiToken{
@@ -84,8 +81,9 @@ and open the template in the editor.
 ._54_v .uiTypeahead{margin-top:1px;}
 .uiTypeahead{background:#fff;border:1px solid;width:1px;cursor:default;position:relative}
 .uiInlineTokenizer .uiToken{top:2px}
+
 ._54_v .uiTokenText{display:inline;max-width:205px;overflow:hidden;text-overflow:ellipsis}
-.uiInlineTokenizer .uiToken .ui{vertical-align:top;}
+.uiInlineTokenizer .uiToken .ui,.uiInlineTokenizer .uiToken2 .ui{vertical-align:top;}
 .uiToken .remove{left:1px;margin:0;outline:none;position:relative;color:#1e2d4c}
 .uiCloseButtonSmall{height:11px;width:11px}
 .uiCloseButton{cursor:pointer;display:inline-block;padding:0;zoom:1}

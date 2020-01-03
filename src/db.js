@@ -24,9 +24,9 @@ export const openConnection = () => {
     db.createObjectStore("tags", { keyPath: "id" });//creates objectstore for tags
     db.createObjectStore("categories", { keyPath: "id" });//creates object store for categories
 
-    let userObject = db.createObjectStore("users", { keyPath: "id", autoIncrement:true });
-    userObject.createIndex('sync','sync', {unique: false })
-   
+    let userObject = db.createObjectStore("users", { keyPath: "id", autoIncrement: true });
+    userObject.createIndex('sync', 'sync', { unique: false })
+
   };
   return request;
 };
@@ -52,7 +52,7 @@ export const openConnection = () => {
 */
 export const displayPubList = (object) => {
   return new Promise(function (resolve, reject) {
-    
+
     var obj_list = [];
     openConnection().onsuccess = function (evt) {
       db = evt.target.result;
@@ -62,7 +62,7 @@ export const displayPubList = (object) => {
 
       obj_store.openCursor().onsuccess = function (event) {
         var cursor = event.target.result;
-        
+
         if (cursor) {
           // console.log(cursor.value);
           obj_list.push(cursor.value);
@@ -135,7 +135,7 @@ export const clearStore = (storeName) => {
           "use Firefox");
       throw e;
     }
-    
+
   }
 }
 export const deleteITem = (storeName, key) => {
@@ -164,6 +164,28 @@ export const deleteITem = (storeName, key) => {
   }
 }
 
+export const findBySlug = (storeName, slug) => {
+  return new Promise(function (resolve, reject) {
+    var obj_list = [];
+    openConnection().onsuccess = function (evt) {
+      db = evt.target.result;
+      let tx = db.transaction(storeName, 'readonly');
+      let store = tx.objectStore(storeName);
+      let slugIndex = store.index('slug');
+      const keyRange = IDBKeyRange.only(slug);
+      const cursorRequest = slugIndex.openCursor(keyRange);
+      cursorRequest.onsuccess = e => {
+        const cursor = e.target.result;
+        if(cursor){
+          obj_list.push(cursor.value);
+          cursor.continue();
+        }else{
+          resolve(obj_list);
+        }
+      }
+    }
+  });
+}
 function displayActionSuccess(msg) {
   msg = typeof msg != 'undefined' ? "Success: " + msg : "Success";
   console.log(msg)
@@ -173,7 +195,7 @@ function displayActionFailure(msg) {
   msg = typeof msg != 'undefined' ? "Failure: " + msg : "Failure";
   // $('#msg').html('<span class="action-failure">' + msg + '</span>');
 }
-    
+
 
 // } else {
 

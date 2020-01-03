@@ -17,8 +17,8 @@ const Auth = (props ) => {
     return (
         
         <div>
-            {authError ? <div class="col-sm-6 mx-auto mt-5">
-                <div class="alert alert-danger" onclick="this.classList.add('hidden');">Authentication error, you have supplied wrong credentials. Try Again or contact your admin.</div>
+            {authError ? <div className="col-sm-6 mx-auto mt-5">
+                <div className="alert alert-danger" onclick="this.classList.add('hidden');">Authentication error, you have supplied wrong credentials. Try Again or contact your admin.</div>
             </div>: <p></p>}
         <div className="card card-login mx-auto mt-1 ">
      

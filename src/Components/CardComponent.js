@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
-import { FaEye, FaFolderOpen } from "react-icons/fa";
+import { FaEye, FaFolderOpen, FaShare, FaShareSquare, FaShareAlt, FaShareAltSquare } from "react-icons/fa";
 import { BlogContext } from '../Store/Store';
 import TimeAgo from 'react-timeago';
-const Card = ({ id, title, excerpt, cover, slugs, category, views, author, category_id, onclick, created, readTime }) => {
+import ReactTooltip from 'react-tooltip';
+import { getArticleSlugLink } from '../article';
+const Card = ({ id, title, excerpt, cover, slugs, category, views, author, category_id, onclick, created, readTime, author_id }) => {
     var image = new Image();
-    image.src =  cover;
+    image.src = cover;
     image.onload = function () {
         //if image exist  then be silenet
     };
@@ -14,13 +16,29 @@ const Card = ({ id, title, excerpt, cover, slugs, category, views, author, categ
 
     };
     const { viewArticle, onCategoryChange } = useContext(BlogContext);
+    const share = (event) => {
+        event.preventDefault();
+
+        if (navigator.share) {
+            navigator
+            .share({
+                title: title,
+                text: excerpt,
+                url: getArticleSlugLink(slugs)
+            })
+            .then(() => { alert("success") })
+            .catch((error) => { alert("error") });
+        } else {
+            alert("Sharing not suported, use a chrome browser.")
+        }
+    };
     return (
-        <div className="col-sm-4 mb-3 h-100" data-id={slugs} >
+        <div className="col-sm-4 mb-3 h-100 rounded-lg" data-id={slugs} data-owner={author_id}>
             <div className="card ">
-                <img src={image.src} alt={slugs} className="img-fluid cover" id={id} />
+                <img src={image.src} alt={slugs} className="img-fluid cover" id={id} height="60" />
                 <div className="card-body">
                     <h6>
-                        <a href="/articles/view/nc5TX" id={id} onClick={viewArticle} >{title}</a>
+                        <a href={"/view/"+slugs} id={id}  >{title}</a>
                     </h6>
                     <div className="row mb-2">
                         <span className="text-muted small col-sm-12">Published: <TimeAgo date={created} /></span>
@@ -28,7 +46,15 @@ const Card = ({ id, title, excerpt, cover, slugs, category, views, author, categ
                     </div>
                     <p>{excerpt}</p>
                 </div>
-                
+                <div className="card-footer">
+                    <div className="row">
+                        <div className="col-sm-3">
+
+                            <a href="#" data-tip="Share article" onClick={share}><ReactTooltip place="top" /><FaShareAlt color="#ccc" fontSize="20" /></a>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

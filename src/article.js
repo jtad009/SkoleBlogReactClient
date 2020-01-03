@@ -14,7 +14,7 @@ export const API_ENDPOINTS={
     dev:{
         'HOMEPAGE':'http://localhost:3000',
         'FETCH_ARTICLES': 'http://localhost/skole/blog/api/v1/articles/all.json',
-        'GET_ARTICLE_BY_ID': 'http://localhost/api/v1/articles/view/',
+        'GET_ARTICLE_BY_SLUG': 'http://localhost/skole/blog/api/v1/articles/view/',
         'FETCH_CATEGORIES': 'http://localhost/skole/blog/api/v1/categories/all.json',
         'FETCH_TAGS': 'http://localhost/skole/blog/api/v1/tags/all.json',
         'FETCH_ARTICLE_BY_TAGID': 'http://localhost/skole/blog/api/v1/tags/view/',
@@ -27,7 +27,7 @@ export const API_ENDPOINTS={
     production:{
         'HOMEPAGE':'https://blog.skole.com.ng',
         'FETCH_ARTICLES': 'https://skole.com.ng/blog/api/v1/articles/all.json',
-        'GET_ARTICLE_BY_ID': 'https://skole.com.ng/blog/api/v1/articles/view/',
+        'GET_ARTICLE_BY_SLUG': 'https://skole.com.ng/blog/api/v1/articles/view/',
         'FETCH_CATEGORIES': 'https://skole.com.ng/blog/api/v1/categories/all.json',
         'FETCH_TAGS': 'https://skole.com.ng/blog/api/v1/tags/all.json',
         'FETCH_ARTICLE_BY_TAGID': 'https://skole.com.ng/blog/api/v1/tags/view/',
@@ -38,19 +38,27 @@ export const API_ENDPOINTS={
         'FETCH_AUTHOR':'https://skole.com.ng/blog/api/v1/authors/login.json'
     }
 };
-
-export async function getArticleById(id) {
+/**
+ * Get a sharable link for the article
+ * @param {String} slug 
+ */
+export function getArticleSlugLink(slug){
+    return window.location.host.includes('localhost') ?
+    API_ENDPOINTS.dev.GET_ARTICLE_BY_ID + slug +'.json':
+    API_ENDPOINTS.production.GET_ARTICLE_BY_ID + slug +'.json'
+}
+export async function getArticleById(slug) {
     const response = await fetch(window.location.host.includes('localhost') ?
-        API_ENDPOINTS.dev.GET_ARTICLE_BY_ID + id :
-        API_ENDPOINTS.production.GET_ARTICLE_BY_ID + id, {
+        API_ENDPOINTS.dev.GET_ARTICLE_BY_SLUG + slug +'.json':
+        API_ENDPOINTS.production.GET_ARTICLE_BY_SLUG + slug +'.json', {
         crossDomain: true,
         headers: header
     });
-    return response.json();
+    return await response;
 }
 
 export async function loadArticlesByTagID(id) {
-    const response = fetch(window.location.host.includes('localhost') ? 
+    const response = await fetch(window.location.host.includes('localhost') ? 
     API_ENDPOINTS.dev.FETCH_ARTICLE_BY_TAGID+id+'.json' : 
     API_ENDPOINTS.production.FETCH_ARTICLE_BY_TAGID+id+'.json', {
         crossDomain: true,

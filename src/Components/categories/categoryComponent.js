@@ -17,14 +17,14 @@ const CategoriesComponent= ({  view = true, filter = null, loading = false, tagC
 
                     <div className="_54_w _42ef">
                         <div className="clearfix uiTokenizer uiInlineTokenizer">
-                            <div className="tokenarea" id="tokenarea" style={{width:'1000px',position:'relative', overflow:'auto'}}>
+                            <div className="tokenarea" id="tokenarea" style={{width:'inherit'}}>
                                 { 
                                     categories.map((tag, i) => {
                                        
                                         return (
 
                                             <span className="removable uiToken2" key={tag.id}>
-                                    <span class="person_image text-center mr-3" style={{backgroundColor:colors[Math.floor(Math.random()*colors.length)]}}>{tag.category.charAt(0).toUpperCase()}</span>
+                                    <span className="person_image text-center mr-3" style={{backgroundColor:colors[Math.floor(Math.random()*colors.length)]}}>{tag.category.charAt(0).toUpperCase()}</span>
                                                 {view ? <a key={tag.id} href="/" className="tag mt-1" id={tag.id} style={{ textDecoration: 'none', paddingRight: '5px' }} onClick={tagChange} >
                                                     <span className="uiTokenText">{tag.category.charAt(0).toUpperCase()+tag.category.slice(1)}</span>
                                                 </a> : ''}

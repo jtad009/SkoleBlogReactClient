@@ -2,7 +2,7 @@ import React, { Component, createContext } from 'react'
 import {
     postData, fetchAuthor,
     loadArticles, loadCategories, loadTags, loadArticlesByTagID, loadArticlesByCategoryID,
-    findTags, API_ENDPOINTS
+    findTags, API_ENDPOINTS,getArticleById
 } from '../article'
 import axios from 'axios';
 import { addData, displayPubList,clearStore, deleteITem } from "../db";
@@ -363,6 +363,20 @@ class ArticleContextProvider extends Component {
             });
     }
 
+    viewArticleBySlug = (slug) => {
+        getArticleById(slug)
+        .then(response=>response.json())
+        .then(res=>{
+            console.log(res.response.data)
+            this.setState({
+                article: res.response.data,
+                loading: false,
+            });
+        })
+        .catch(err => {
+            console.log("Error from failed connection or otherwise, search fro data on IndexDB");
+        });
+    }
     render() {
         return (
             <BlogContext.Provider value={{
@@ -377,7 +391,8 @@ class ArticleContextProvider extends Component {
                 login: this.loginUser,
                 addArticle: this.writeArticle,
                 logout:this.logout,
-                fetchArticle: this.fetchArticle
+                fetchArticle: this.fetchArticle,
+                viewArticleBySlug: this.viewArticleBySlug
             }}>
                 {this.props.children}
             </BlogContext.Provider>

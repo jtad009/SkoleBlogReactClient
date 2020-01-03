@@ -24,7 +24,7 @@ class App extends React.Component {
         return (
             <div className="row">
 
-                 <div className="col-sm-12 mb-2"><CategoriesComponent  /></div>  
+                 <div className="col-sm-12 mb-2 categories"><CategoriesComponent  /></div>  
            
                 <Sidebar />
                 <Display />
