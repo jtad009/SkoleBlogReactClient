@@ -1,14 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { BlogContext } from '../Store/Store';
-import { Offline } from "react-detect-offline";
+import UserProfileMenu from './Author/userMenuComponent';
 import SearchBox from './SearchBoxComponent';
+import { Link } from 'react-router-dom';
+import ReactTooltip from 'react-tooltip';
+import { Offline } from "react-detect-offline";
+import toaster from 'toasted-notes';
+import 'toasted-notes/src/styles.css';
 var divHeight = {
     height: '300px'
 };
 const Header = (props) => {
     const { article, onReset, filterCriteria, user } = useContext(BlogContext);
-    console.log(window.location.href.includes('write'))
-    var bg = article.length > 0 ? 'https://skole.com.ng/webroot/img/passport/blogs/' + article[0].cover_image : '/img/code_banner.jpg';
+    var bg =  '/img/code_banner.jpg';
+    console.log(article);
+    useEffect(()=>{
+        
+            if(article.cover_image !== undefined){
+                bg =  'https://skole.com.ng/webroot/img/passport/blogs/' + article.cover_image 
+                document.querySelector('.masthead').style.backgroundImage = `url(${bg})`;
+            }
+            // document.querySelector('.titleName').innerHTML = article.title;
+            
+    });
+    
+    
+    
 
 
     var divStyle = {
@@ -20,23 +37,35 @@ const Header = (props) => {
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
     };
-    
+    const showMenu = ()=>{
+        if(document.querySelector('.__react_bs_dd_menuItems_1').style.display === 'block'){
+            document.querySelector('.__react_bs_dd_menuItems_1').style.display='none';
+        }else{
+            document.querySelector('.__react_bs_dd_menuItems_1').style.display = 'block'
+        }
+        
+    }
     return (
         <header className="masthead" id="masthead" style={divStyle} >
+            
             {window.location.href.includes('write') || window.location.href.includes('auth') ? '' :
 
                 <div className="container">
                     <div className="row" style={divHeight}>
                         <div className="col-lg-8 col-md-10 mx-auto">
-                            <div className="page-heading">
-                                <h1 >{article.length > 0 ? article[0].title : 'Posts'}</h1>
-                               <SearchBox/>
+                            <div className="page-heading" >
+                                {/* <h1 className="titleName" style={{background:'#000',color:'#fff',borderRadius:'12px'}}>Posts</h1> */}
+                                {console.log(window.location.href.includes('view'))}
+                                { window.location.href.includes('view') || window.location.href.includes('user')  ? '' : <SearchBox/> }
                             </div>
+                            
                         </div>
                     </div>
                 </div>}
             <div className="row ">
+                
                 <div className="col-lg-12 ">
+                
                     {filterCriteria.type !== undefined ?
                         <ol className="breadcrumb bg-white">
                             <li className="breadcrumb-item"><a href="/" onClick={onReset} id="reset">All Post</a></li>
@@ -50,14 +79,9 @@ const Header = (props) => {
                             {window.location.href.includes('write') ? <li className="breadcrumb-item">Articles</li> : ''}
                             {window.location.href.includes('write') ? <li className="breadcrumb-item active text-muted">Add</li> : ''}
                         </ol>}
+                        {Object.keys(user).length > 1 ? <span style={{float: 'right',marginTop: '-45px', marginRight: '20px', height:'42px'}} onClick={showMenu}><UserProfileMenu/> </span> : ''}
                 </div>
-                <Offline>
-            
-                <div className="col-sm-12 mx-auto ">
-                    <div class="alert alert-danger" onclick="this.classList.add('hidden');">Currently offline. Check internet connection</div>
-                </div>
-            
-             </Offline>
+                
             </div>
         </header>
 

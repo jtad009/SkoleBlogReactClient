@@ -16,6 +16,9 @@
   border-color:transparent;
   box-shadow:none;
  }
+ .bg-grey{
+   background:#f6f6f6
+ }
  .sticky{
    /* position: relative !important; */
    position: fixed;
@@ -23,6 +26,9 @@
    bottom: 0px;
    width: 100%;
    left: 1px;
+   height: 50px;
+   box-shadow:  0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+   border-top: 1px solid #46858c;
  }
 .list-group-item {
   border: 1px solid #fff !important;
@@ -324,7 +330,14 @@ header.masthead>.overlay {
   background-color: #379392 !important;
   border-color: #379392;
 }
-.btn-primary,hr{
+.readArea, navbar-brand{
+  font-family: 'Comfortaa';
+}
+hr{
+  background-color: #f6f6f6 !important;
+  border-color: #f6f6f6 !important;
+}
+.btn-primary{
   color: #fff;
   background-color: #379392 !important;
   border-color: #379392 !important;
@@ -345,7 +358,7 @@ html {
 
 body {
   overflow-x: hidden; 
-  font-family: 'Nunito', sans-serif !important;
+  font-family: 'Comfortaa', sans-serif !important;
   background: #E0E0E0 !important;
     
 }
@@ -701,18 +714,18 @@ footer.sticky-footer {
     width: calc(100% - 55px); } }
 
     .card{
-      -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      /* -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); */
       -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
       -ms-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
       -o-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); */
       /* -webkit-transition: all 0.25s ease-in-out; */
       -moz-transition: all 0.25s ease-in-out;
       -ms-transition: all 0.25s ease-in-out;
       -o-transition: all 0.25s ease-in-out;
       transition: all 0.25s ease-in-out;
       border:none!important;
-      border-radius:0px !important;
+      /* border-radius:0px !important; */
     }
     
 .capbox {

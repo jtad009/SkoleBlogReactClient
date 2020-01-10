@@ -1,12 +1,15 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import Register from './RegisterComponent';
 import {Link,Switch,Route, Redirect} from 'react-router-dom';
 import { BlogContext } from '../../Store/Store';
 import { BallBeat } from 'react-pure-loaders';
 import App from '../../App';
+import toaster from 'toasted-notes';
 const Auth = (props ) => {
-    const {changeUserValues,login, loggedIN,loading,authError} = useContext(BlogContext);
+    const {changeUserValues,login, loggedIN,loginLoading, authError} = useContext(BlogContext);
+    const [loading, setLoading] = useState(false);
     if(loggedIN){
+       
        return (
            <Switch>
                 <Redirect to='/'/>
@@ -24,7 +27,7 @@ const Auth = (props ) => {
      
             <div className="card-body">
                  <h4 className="card-title text-center big">LOGIN<hr className="line"/></h4>
-                <form onSubmit={login}method="post" acceptCharset="utf-8" action="/skole/blog/authors/login"><div style={{display:"none"}}><input type="hidden" name="_method" value="POST"/></div>         
+                <form onSubmit={login} method="post" acceptCharset="utf-8" action="/skole/blog/authors/login"><div style={{display:"none"}}><input type="hidden" name="_method" value="POST"/></div>         
                         <div className="form-group">
                             <label htmlFor="exampleInputEmail1">Username</label>
                             <input onChange={changeUserValues} className="form-control" id="username" type="text" name="username" aria-describedby="emailHelp" placeholder="Enter username"/>
@@ -40,7 +43,7 @@ const Auth = (props ) => {
                         </div>
                     </div>
                    
-                   { loading ? <h4 className="text-muted text-center"> <BallBeat color="#379392" loading /> </h4>: 
+                   { loginLoading ? <h4 className="text-muted text-center"> <BallBeat color="#379392" loading={loginLoading} /> </h4>: 
                 <input className="btn btn-primary btn-block" type="submit" value="Login"/>}
                 </form>       
                 <div className="text-center">

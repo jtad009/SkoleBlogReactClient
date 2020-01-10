@@ -45,7 +45,8 @@ const Register = () => {
                         <button className="btn btn-block btn-primary" id="submit"  type="submit">SAVE USER</button>            
                                 </fieldset>
 
-                    </form>                </div>
+                    </form>               
+                     </div>
             </div>
         </div>
     </div>

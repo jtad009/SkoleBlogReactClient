@@ -22,7 +22,10 @@ export const API_ENDPOINTS={
         'ADD_ARTICLE':'http://localhost/skole/blog/api/v1/articles/add.json',
         'FIND_TAG':'http://localhost/skole/blog/api/v1/tags/find/',
         'ADD_TAG':'http://localhost/skole/blog/api/v1/tags/add.json',
-        'FETCH_AUTHOR':'http://localhost/skole/blog/api/v1/authors/login.json'
+        'FETCH_AUTHOR':'http://localhost/skole/blog/api/v1/authors/login.json',
+        'POST_COMMENT':'http://localhost/skole/blog/api/v1/comments/add.json',
+        'ADD_AUTHOR':'http://localhost/skole/blog/api/v1/authors/add.json',
+        'EDIT_AUTHOR':'http://localhost/skole/blog/api/v1/authors/edit/',
     },
     production:{
         'HOMEPAGE':'https://blog.skole.com.ng',
@@ -35,7 +38,10 @@ export const API_ENDPOINTS={
         'ADD_ARTICLE':'https://skole.com.ng/blog/api/v1/articles/add.json',
         'FIND_TAG':'https://skole.com.ng/blog/api/v1/tags/find/',
         'ADD_TAG':'https://skole.com.ng/blog/api/v1/tags/add.json',
-        'FETCH_AUTHOR':'https://skole.com.ng/blog/api/v1/authors/login.json'
+        'FETCH_AUTHOR':'https://skole.com.ng/blog/api/v1/authors/login.json',
+        'POST_COMMENT':'https://skole.com.ng/blog/api/v1/comments/add.json',
+        'ADD_AUTHOR':'https://skole.com.ng/blog/api/v1/authors/add.json',
+        'EDIT_AUTHOR':'https://skole.com.ng/blog/api/v1/authors/edit/',
     }
 };
 /**
@@ -44,8 +50,8 @@ export const API_ENDPOINTS={
  */
 export function getArticleSlugLink(slug){
     return window.location.host.includes('localhost') ?
-    API_ENDPOINTS.dev.GET_ARTICLE_BY_ID + slug +'.json':
-    API_ENDPOINTS.production.GET_ARTICLE_BY_ID + slug +'.json'
+    API_ENDPOINTS.dev.GET_ARTICLE_BY_SLUG + slug :
+    API_ENDPOINTS.production.GET_ARTICLE_BY_SLUG + slug 
 }
 export async function getArticleById(slug) {
     const response = await fetch(window.location.host.includes('localhost') ?
@@ -217,5 +223,80 @@ export async function postData(pk, data) {
     // return await response.json(); // parses JSON response into native JavaScript objects
   }
 
+  export async function postComment(pk, data) {
 
+    
+    // Default options are marked with *
+    
+    
+     return await axios({
+        method: 'post', //you can set what request you want to be
+        url: window.location.host.includes('localhost') ?
+        API_ENDPOINTS.dev.POST_COMMENT : API_ENDPOINTS.production.POST_COMMENT,
+        data: data,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true,
+            'Access-Control-Allow-Headers': 'Origin, Content-Type, Authorization, X-Requested-With',
+            'Content-Type': 'application/json',
+            'Origin': 'http://localhost:3000',
+            'Pragma': 'no-cache',
+            'Cache-Control': 'no-cache',
+            'Authorization': 'Basic '+pk,
+            'Access-Control-Request-Headers': 'access-control-allow-credentials,access-control-allow-headers,access-control-allow-origin,cache-control,content-type,pragma'
+        }
+      });
+    
+  }
 
+  export async function addAuthor( data) {
+
+    
+    // Default options are marked with *
+    // header.append('Authorization', 'Basic '+pk);
+    
+     return await axios({
+        method: 'post', //you can set what request you want to be
+        url: window.location.host.includes('localhost') ?
+        API_ENDPOINTS.dev.ADD_AUTHOR : API_ENDPOINTS.production.ADD_AUTHOR,
+        data: data,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true,
+            'Access-Control-Allow-Headers': 'Origin, Content-Type, Authorization, X-Requested-With',
+            'Content-Type': 'application/json',
+            'Origin': 'http://localhost:3000',
+            'Pragma': 'no-cache',
+            'Cache-Control': 'no-cache',
+           
+            'Access-Control-Request-Headers': 'access-control-allow-credentials,access-control-allow-headers,access-control-allow-origin,cache-control,content-type,pragma'
+        }
+      })
+    
+  }
+
+  export async function editAuthor(pk,user_id, data) {
+
+    
+    // Default options are marked with *
+    // header.append('Authorization', 'Basic '+pk);
+    
+     return await axios({
+        method: 'post', //you can set what request you want to be
+        url: window.location.host.includes('localhost') ?
+        API_ENDPOINTS.dev.EDIT_AUTHOR+user_id+'.json' : API_ENDPOINTS.production.EDIT_AUTHOR+user_id+'.json',
+        data: data,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true,
+            'Access-Control-Allow-Headers': 'Origin, Content-Type, Authorization, X-Requested-With',
+            'Content-Type': 'application/json',
+            'Origin': 'http://localhost:3000',
+            'Pragma': 'no-cache',
+            'Cache-Control': 'no-cache',
+            'Authorization': 'Basic '+pk,
+            'Access-Control-Request-Headers': 'access-control-allow-credentials,access-control-allow-headers,access-control-allow-origin,cache-control,content-type,pragma'
+        }
+      })
+    
+  }

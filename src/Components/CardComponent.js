@@ -38,7 +38,7 @@ const Card = ({ id, title, excerpt, cover, slugs, category, views, author, categ
                 <img src={image.src} alt={slugs} className="img-fluid cover" id={id} height="60" />
                 <div className="card-body">
                     <h6>
-                        <a href={"/view/"+slugs} id={id}  >{title}</a>
+                        <a href={"/view/"+slugs} id={id}  ><b>{title}</b></a>
                     </h6>
                     <div className="row mb-2">
                         <span className="text-muted small col-sm-12">Published: <TimeAgo date={created} /></span>

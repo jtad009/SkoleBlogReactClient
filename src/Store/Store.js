@@ -2,13 +2,14 @@ import React, { Component, createContext } from 'react'
 import {
     postData, fetchAuthor,
     loadArticles, loadCategories, loadTags, loadArticlesByTagID, loadArticlesByCategoryID,
-    findTags, API_ENDPOINTS,getArticleById
+    findTags, API_ENDPOINTS,getArticleById,addAuthor
 } from '../article'
 import axios from 'axios';
 import { addData, displayPubList,clearStore, deleteITem } from "../db";
-import { offline } from "react-detect-offline";
+
 import {Redirect, Route} from "react-router-dom";
-import App from "../App";
+import toast from 'toasted-notes' 
+import 'toasted-notes/src/styles.css';
 export const BlogContext = createContext();
 
 class ArticleContextProvider extends Component {
@@ -26,10 +27,13 @@ class ArticleContextProvider extends Component {
         username: 'israeledet',
         password: "123media",
         user: { username: '' },
-        loggedIN: false
+        loggedIN: false,
+        loginLoading:false
     }
-    article = {
-
+    setCurrentArticle = (article) => {
+        this.setState({
+            article:article
+        });
     }
     componentDidMount() {
         //if the username is not set then check the local storage for the user
@@ -140,6 +144,7 @@ class ArticleContextProvider extends Component {
     onCategoryChange = (event) => {
 
         event.preventDefault();
+        
         //this would make an api call and return result to the state
         var id = event.target.value || event.target.id;
         if (id) {
@@ -191,22 +196,25 @@ class ArticleContextProvider extends Component {
     loginUser = (event) => {
         event.preventDefault();
         this.setState({
-            loading: true
+            loginLoading: true
         });
         fetchAuthor(this.state.username, this.state.password)
         .then(res => res.json())
         .then(response => {
             let code = response.code !== undefined  ? response.code : response.user.code;
             this.setState({
-               loading:false
+                loginLoading:false
             });
             if (code === 200) {
                 let user = response.user.data;
-                console.log(user)
+               
                 clearStore('users')
                 addData('users', user);
                 this.getLoggedUser();
-                alert("Welcome "+user.username);
+                
+                toast.notify(`Login success! welcome ${user.username}`, {
+                    position: 'bottom-right'
+                  });
                 this.setState({
                     authError: false,
                     loggedIN: true,
@@ -228,12 +236,17 @@ class ArticleContextProvider extends Component {
             return <Redirect to="/"/>
         }
     }
-    logout = () => {
-        clearStore('users');
-        deleteITem('users',this.state.user.id)
-        this.setState({
-            loggedIN: false
+    logout = (e) => {
+        e.preventDefault();
+        clearStore('users').then(response=>{
+            toast.notify("Logout successful");
+            this.setState({
+                loggedIN: false
+            });
+           window.location.reload();
         });
+        
+        
     }
     //If user is logged in set the user in the state
     getLoggedUser = () => {
@@ -253,7 +266,7 @@ class ArticleContextProvider extends Component {
         event.preventDefault();
         const data = new FormData(event.target);
         console.log(data.getAll())
-        postData(data);
+        addAuthor(data);
         //STEP 1: First try to send user to the server for resgistration and if that fails save the user offline
 
         //STEP 2: when you get a change to go online, send the users infor and then updated sync value to true
@@ -392,7 +405,8 @@ class ArticleContextProvider extends Component {
                 addArticle: this.writeArticle,
                 logout:this.logout,
                 fetchArticle: this.fetchArticle,
-                viewArticleBySlug: this.viewArticleBySlug
+                viewArticleBySlug: this.viewArticleBySlug,
+                setCurrentArticle:this.setCurrentArticle //this allows child set article from outside the store
             }}>
                 {this.props.children}
             </BlogContext.Provider>

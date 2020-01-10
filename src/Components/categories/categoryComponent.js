@@ -7,7 +7,7 @@ import { BlogContext } from '../../Store/Store';
  * @param tagCount Number of items under this  tag
  */
 const CategoriesComponent= ({  view = true, filter = null, loading = false, tagCount = 0 }) => {
-    const { findTag, tagChange,categories } = useContext(BlogContext);
+    const { onCategoryChange,categories } = useContext(BlogContext);
     const colors = ['#218838','#1e7e34','#17a2b8','#138496','#28a745','#ffc107','#e0a800','#d39e00','#343a40','#007bff','#868e96'];
   
     return (
@@ -23,9 +23,9 @@ const CategoriesComponent= ({  view = true, filter = null, loading = false, tagC
                                        
                                         return (
 
-                                            <span className="removable uiToken2" key={tag.id}>
+                                            <span className="removable uiToken2" key={tag.id} id={tag.id} onClick={onCategoryChange} style={{cursor:'pointer'}}>
                                     <span className="person_image text-center mr-3" style={{backgroundColor:colors[Math.floor(Math.random()*colors.length)]}}>{tag.category.charAt(0).toUpperCase()}</span>
-                                                {view ? <a key={tag.id} href="/" className="tag mt-1" id={tag.id} style={{ textDecoration: 'none', paddingRight: '5px' }} onClick={tagChange} >
+                                                {view ? <a  key={tag.id} href="/" className="tag mt-1" id={tag.id} style={{ textDecoration: 'none', paddingRight: '5px' }} >
                                                     <span className="uiTokenText">{tag.category.charAt(0).toUpperCase()+tag.category.slice(1)}</span>
                                                 </a> : ''}
                                                 {view ? '' : <span className="uiTokenText">{tag.tag}</span>}

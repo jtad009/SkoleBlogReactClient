@@ -108,35 +108,23 @@ export const addData = (storeName, data) => {
 }
 
 export const clearStore = (storeName) => {
+  return new Promise(function (resolve, reject) {
   openConnection().onsuccess = function (evt) {
     db = evt.target.result;
     let tx = db.transaction(storeName, 'readwrite');
     let store = tx.objectStore(storeName).clear();
     store.onsuccess = function (evt) {
-      console.log("store opened in DB successful");
+      console.log("store cleared");
       displayActionSuccess('');
+      resolve(evt);
       //   displayPubList(store);
     };
-    let req;
-    try {
-      req = store.clear();
-      req.onsuccess = function (evt) {
-        console.log("Deleted in DB successful");
-        displayActionSuccess('');
-        //   displayPubList(store);
-      };
-      req.onerror = function () {
-        console.error("addPublication error", this.error);
-        displayActionFailure(this.error);
-      };
-    } catch (e) {
-      if (e.name === 'DataCloneError')
-        displayActionFailure("This engine doesn't know how to clone a Blob, " +
-          "use Firefox");
-      throw e;
-    }
+   store.onerror = function(evt){
+     resolve(evt);
+   }
 
   }
+});
 }
 export const deleteITem = (storeName, key) => {
   openConnection().onsuccess = function (evt) {

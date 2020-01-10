@@ -21,10 +21,25 @@ and open the template in the editor.
     
     font-size:24px
 }
+.css-118m408-BallScaleMultiple{
+    margin-left:50%
+}
+.Toaster__alerts{
+    /* background-color: white; */
+    overflow: hidden;
+    max-width: 650px;
+    position: relative;
+    border-radius: 0.4rem;
+    display: flex;
+    padding: 1rem;
+    padding-right: 48px;
+    box-shadow: rgba(52, 58, 64, 0.15) 0px 1px 10px 0px, rgba(52, 58, 64, 0.1) 0px 6px 12px 0px, rgba(52, 58, 64, 0.12) 0px 6px 15px -2px;
+}
 .person_image{
 	position: relative;
 	display: block;
-	padding: .45rem .45rem;
+    padding: .45rem .45rem;
+    box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	max-width:80px;
 	/* box-shadow: #ccc 1px 1px 1px 1px; */
