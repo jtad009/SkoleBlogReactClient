@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import { FaUserCircle, FaEdit, FaHome } from "react-icons/fa";
-import {Link,Router,Route} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 import Container from './Author/ContainerComponent';
 import { BlogContext } from '../Store/Store';
 import ReactTooltip from 'react-tooltip';

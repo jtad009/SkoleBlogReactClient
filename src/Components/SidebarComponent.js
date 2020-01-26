@@ -2,12 +2,11 @@ import React, { useContext } from 'react';
 
 import Taglist from './TaglistComponent';
 import SelectTag from './SelectTagComponent';
-import SelectCategory from './CategoriesComponent';
 import { BlogContext } from '../Store/Store';
 
 
 const Sidebar = (props) => {
-    const {categories, tags, article}  = useContext(BlogContext);
+    const { tags, article}  = useContext(BlogContext);
     return (
 
         article.length === undefined  ? 

@@ -1,5 +1,5 @@
-const staticCacheName = 'skole-blog-cache-v1';
-const dynamicCacheName = 'skole-blog-dynamic-cache-v1'
+const staticCacheName = 'skole-blog-cache-v3';
+const dynamicCacheName = 'skole-blog-dynamic-cache-v3'
 const asset = [
     '/',
     '/index.html',
@@ -60,7 +60,7 @@ self.addEventListener('fetch', evt => {
                         // console.log(fetchRes.clone());
                     }else{
                         cache.put(evt.request.url, fetchRes.clone());
-                        limitCacheSize(dynamicCacheName, 20);
+                        limitCacheSize(dynamicCacheName, 40);
                     }
                     
                     return fetchRes;

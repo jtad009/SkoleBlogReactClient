@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { DropdownMenu, MenuItem } from 'react-bootstrap-dropdown-menu';
 import { BlogContext } from '../../Store/Store';
-import { FaUserAlt } from "react-icons/fa";
+
 // const UserProfileMenu = () => {
 //     const {user, logout} = useContext(BlogContext);
     
@@ -23,8 +23,11 @@ class UserProfileMenu extends React.Component{
         return (
             <DropdownMenu userName={user.username} position="center" triggerType='text' trigger='Profile' fadeIn="true">
                 <MenuItem text='Home' location='/' />
+                <br/>
                 <MenuItem text='View Profile' location={"/user/"+user.username} />
+                <br/>
                 <MenuItem text='Write Article' location="/write" />
+                <br/>
                 <MenuItem text='Logout'  onClick={logout} />
             </DropdownMenu>
         );

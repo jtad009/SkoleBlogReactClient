@@ -1,11 +1,8 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { BlogContext } from '../Store/Store';
 import UserProfileMenu from './Author/userMenuComponent';
 import SearchBox from './SearchBoxComponent';
-import { Link } from 'react-router-dom';
-import ReactTooltip from 'react-tooltip';
-import { Offline } from "react-detect-offline";
-import toaster from 'toasted-notes';
+
 import 'toasted-notes/src/styles.css';
 var divHeight = {
     height: '300px'
@@ -13,7 +10,7 @@ var divHeight = {
 const Header = (props) => {
     const { article, onReset, filterCriteria, user } = useContext(BlogContext);
     var bg =  '/img/code_banner.jpg';
-    console.log(article);
+    
     useEffect(()=>{
         
             if(article.cover_image !== undefined){

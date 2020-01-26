@@ -20,6 +20,7 @@ export const API_ENDPOINTS={
         'FETCH_ARTICLE_BY_TAGID': 'http://localhost/skole/blog/api/v1/tags/view/',
         'FETCH_ARTICLE_BY_CATEGORYID':'http://localhost/skole/blog/api/v1/categories/view/',
         'ADD_ARTICLE':'http://localhost/skole/blog/api/v1/articles/add.json',
+        'EDIT_ARTICLE':'http://localhost/skole/blog/api/v1/articles/edit',
         'FIND_TAG':'http://localhost/skole/blog/api/v1/tags/find/',
         'ADD_TAG':'http://localhost/skole/blog/api/v1/tags/add.json',
         'FETCH_AUTHOR':'http://localhost/skole/blog/api/v1/authors/login.json',
@@ -36,6 +37,7 @@ export const API_ENDPOINTS={
         'FETCH_ARTICLE_BY_TAGID': 'https://skole.com.ng/blog/api/v1/tags/view/',
         'FETCH_ARTICLE_BY_CATEGORYID':'https://skole.com.ng/blog/api/v1/categories/view/',
         'ADD_ARTICLE':'https://skole.com.ng/blog/api/v1/articles/add.json',
+        'EDIT_ARTICLE':'https://skole.com.ng/blog/api/v1/articles/edit',
         'FIND_TAG':'https://skole.com.ng/blog/api/v1/tags/find/',
         'ADD_TAG':'https://skole.com.ng/blog/api/v1/tags/add.json',
         'FETCH_AUTHOR':'https://skole.com.ng/blog/api/v1/authors/login.json',
@@ -49,9 +51,8 @@ export const API_ENDPOINTS={
  * @param {String} slug 
  */
 export function getArticleSlugLink(slug){
-    return window.location.host.includes('localhost') ?
-    API_ENDPOINTS.dev.GET_ARTICLE_BY_SLUG + slug :
-    API_ENDPOINTS.production.GET_ARTICLE_BY_SLUG + slug 
+    return `https://blog.skole.com.ng/view/${slug}`;
+    
 }
 export async function getArticleById(slug) {
     const response = await fetch(window.location.host.includes('localhost') ?
@@ -285,6 +286,39 @@ export async function postData(pk, data) {
         method: 'post', //you can set what request you want to be
         url: window.location.host.includes('localhost') ?
         API_ENDPOINTS.dev.EDIT_AUTHOR+user_id+'.json' : API_ENDPOINTS.production.EDIT_AUTHOR+user_id+'.json',
+        data: data,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true,
+            'Access-Control-Allow-Headers': 'Origin, Content-Type, Authorization, X-Requested-With',
+            'Content-Type': 'application/json',
+            'Origin': 'http://localhost:3000',
+            'Pragma': 'no-cache',
+            'Cache-Control': 'no-cache',
+            'Authorization': 'Basic '+pk,
+            'Access-Control-Request-Headers': 'access-control-allow-credentials,access-control-allow-headers,access-control-allow-origin,cache-control,content-type,pragma'
+        }
+      })
+    
+  }
+
+  /**
+   * Edit article 
+   * @param {String} pk 
+   * @param {String} article_id 
+   * @param {Object} data 
+   */
+  export async function editArticle(pk,article_id, data) {
+
+    
+    // Default options are marked with *
+    // header.append('Authorization', 'Basic '+pk);
+    
+     return await axios({
+        method: 'post', //you can set what request you want to be
+        url: window.location.host.includes('localhost') ?
+        API_ENDPOINTS.dev.EDIT_ARTICLE+article_id+'.json' : 
+        API_ENDPOINTS.production.EDIT_ARTICLE+article_id+'.json',
         data: data,
         headers: {
             "Access-Control-Allow-Origin": "*",

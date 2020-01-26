@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Tag from './TagComponent';
+
 import TagsV2 from './TagsV2'
 
 class Taglist extends Component {

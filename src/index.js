@@ -5,8 +5,8 @@ import App from './App';
 import { BrowserRouter as Router, Route} from "react-router-dom";
 import Header from './Components/HeaderComponent';
 import Navbar from './Components/NavComponent';
-import ArticleContextProvider, { BlogContext } from './Store/Store'
-// const {Provider, Consumer} = React.createContext()
+import ArticleContextProvider from './Store/Store'
+
 import Fab from './Components/FabComponent';
 import Container from './Components/Author/ContainerComponent';
 import Register from './Components/Author/RegisterComponent';
@@ -14,8 +14,7 @@ import AddArticle from './Components/Author/ArticleAddComponent';
 import ViewComponent from './Components/viewComponent';
 import UserProfile from './Components/Author/UserComponent';
 import { Offline } from "react-detect-offline";
-import toaster from 'toasted-notes';
-import 'toasted-notes/src/styles.css';
+
 ReactDOM.render(
     <ArticleContextProvider>
         <Router>

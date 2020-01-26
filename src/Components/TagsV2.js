@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { BlogContext } from '../Store/Store';
 
 /**
@@ -6,8 +6,20 @@ import { BlogContext } from '../Store/Store';
  * @param view boolean to know if the tag list is for view or when adding tags
  * @param tagCount Number of items under this  tag
  */
-const TagsV2 = ({ tags, view = true, filter = null, loading = false, tagCount = 0 }) => {
-    const { findTag, tagChange } = useContext(BlogContext)
+const TagsV2 = ({ tags, view = true, filter = null, loading = false, tagCount = 0, removeNode}) => {
+    const { tagChange } = useContext(BlogContext);
+    useEffect(()=>{
+        console.log(tags);
+    }, [tags]);
+
+    /**
+     * Remove tag from DOM
+     */
+    const remove = (event) => {
+        event.preventDefault()
+        document.querySelector(`#${event.target.id}`).parentNode.remove();
+    }
+
     return (
         <div className="_1sk6" style={{ "bottom": "0px" }}>
             <div className="_54_v">
@@ -26,7 +38,8 @@ const TagsV2 = ({ tags, view = true, filter = null, loading = false, tagCount = 
                                                 </a> : ''}
                                                 {view ? '' : <span className="uiTokenText">{tag.tag}</span>}
                                                 {view ? '' : <input name="tags[]" id="feature" autoComplete="off" type="hidden" value={tag.tag} />}
-                                                {view ? <span className="num" style={{ color: '#e33545', fontSize: '11px' }}>{tag.count}</span> : <a href="#" aria-label="Remove j" className="remove uiCloseButton uiCloseButtonSmall" style={{ textDecoration: 'none', }} id="remove">×</a>}
+                                                {view ? <span className="num" style={{ color: '#e33545', fontSize: '11px' }}>{tag.count}</span> : 
+                                                <a href="#" aria-label="Remove j" className="remove uiCloseButton uiCloseButtonSmall" style={{ textDecoration: 'none', }} id={'remove'+i} onClick={remove}>×</a>}
                                             </span>
                                         )
 

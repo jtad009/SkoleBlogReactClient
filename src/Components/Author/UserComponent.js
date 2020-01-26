@@ -7,11 +7,12 @@ import {Link,Switch,Route, Redirect} from 'react-router-dom';
 import { FaUserEdit } from 'react-icons/fa';
 import App from '../../App';
 const UserProfile = () => {
-    const { user, articles,loggedIN } = useContext(BlogContext);
+    const { user, articles } = useContext(BlogContext);
     const [openSheet, setOpenSheet] = useState(false);
     const myData = articles.filter(article=>{
         return (article.user_id == user.user_code);
     });
+    
     const styles={
         title:{
             backgroundColor: 'rgb(220, 53, 69)',
@@ -34,6 +35,17 @@ const UserProfile = () => {
     const openBSheet = (e)=>{
         // e.preventDefault();
         setOpenSheet(!openSheet);
+        console.log(document.querySelector('nav'))
+        if(openSheet === true){
+            console.log(openSheet)
+            
+            document.querySelector('nav').style.display='block'
+        }else{
+            console.log(openSheet)
+            
+            document.querySelector('nav').style.display='none';
+        }
+       
     }
    
         if(Object.keys(user) < 1){
@@ -74,8 +86,8 @@ const UserProfile = () => {
                     fullscreen
 				>
 					<div style={styles.title}>
-						Edit Profile&nbsp;
-						<button onClick={openBSheet} className="btn btn-sm btn-primary">
+						Profile
+						<button onClick={openBSheet} className="btn btn-sm btn-primary" style={{float: 'right', marginRight: '10px'}}>
 							{openSheet ? 'Close' : 'Open'}
 						</button>
 					</div>

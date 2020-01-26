@@ -1,21 +1,24 @@
 import React, { useContext } from 'react';
-import { FaEye, FaFolderOpen, FaShare, FaShareSquare, FaShareAlt, FaShareAltSquare } from "react-icons/fa";
+import { FaComment, FaShareAlt,  FaTrashAlt  } from "react-icons/fa";
 import { BlogContext } from '../Store/Store';
 import TimeAgo from 'react-timeago';
 import ReactTooltip from 'react-tooltip';
 import { getArticleSlugLink } from '../article';
-const Card = ({ id, title, excerpt, cover, slugs, category, views, author, category_id, onclick, created, readTime, author_id }) => {
+const Card = ({index, id, title, excerpt, cover, slugs, category, views, author, category_id, onclick, created, readTime, author_id,comments }) => {
     var image = new Image();
     image.src = cover;
     image.onload = function () {
         //if image exist  then be silenet
+        // image.src = cover;
     };
     image.onerror = function () {
+      
         //if image doesnt load then replace it with the avatar
-        document.getElementById(id).src = '/img/bg-post.jpg';
+        document.querySelector('#id'+index).src = '/img/bg-post.jpg';
 
     };
-    const { viewArticle, onCategoryChange } = useContext(BlogContext);
+
+    const { user } = useContext(BlogContext);
     const share = (event) => {
         event.preventDefault();
 
@@ -35,7 +38,7 @@ const Card = ({ id, title, excerpt, cover, slugs, category, views, author, categ
     return (
         <div className="col-sm-4 mb-3 h-100 rounded-lg" data-id={slugs} data-owner={author_id}>
             <div className="card ">
-                <img src={image.src} alt={slugs} className="img-fluid cover" id={id} height="60" />
+                <img src={image.src} alt={slugs} className="img-fluid cover" id={'id'+index} height="60" />
                 <div className="card-body">
                     <h6>
                         <a href={"/view/"+slugs} id={id}  ><b>{title}</b></a>
@@ -47,13 +50,15 @@ const Card = ({ id, title, excerpt, cover, slugs, category, views, author, categ
                     <p>{excerpt}</p>
                 </div>
                 <div className="card-footer">
-                    <div className="row">
-                        <div className="col-sm-3">
+                    {/* <div className="row"> */}
+                        <div className="row" style={{display: 'contents',alignContent: 'space-evenly',alignItems: 'end'}}>
 
-                            <a href="#" data-tip="Share article" onClick={share}><ReactTooltip place="top" /><FaShareAlt color="#ccc" fontSize="20" /></a>
-
+                            <a href="#" className="mr-3" data-tip="Share article" onClick={share}><ReactTooltip place="top" /><FaShareAlt color="#ccc" fontSize="15" /></a>
+                            {author_id == user.user_code ? <a href="#" className="mr-3" data-tip="Delete Article" onClick={share}><ReactTooltip place="top" /><FaTrashAlt color="red" fontSize="15" /></a> : ''}
+                            <span style={{fontSize:'14px'}} data-tip="comment"  className="mr-3" onClick={share}><ReactTooltip place="top" />{comments.length} <FaComment color="#ccc" fontSize="15" /></span>
+                            
                         </div>
-                    </div>
+                    {/* </div> */}
                 </div>
             </div>
         </div>

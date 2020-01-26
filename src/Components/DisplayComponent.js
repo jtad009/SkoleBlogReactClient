@@ -2,11 +2,11 @@ import React, { useContext, useState } from 'react';
 import CardList from './CardListComponent';
 import ViewPost from './ViewPostComponent';
 import { BlogContext } from '../Store/Store';
-import CategoriesComponent from './categories/categoryComponent';
 import Pagination from "react-js-pagination";
 
+
 const Display = (props) => {
-    const {   articles, article, filteredArticles,tags,articleLength, fetchArticle,categories } = useContext(BlogContext);
+    const {   articles, article, filteredArticles,articleLength, fetchArticle } = useContext(BlogContext);
     const [activePage, setActivePage] =  useState(1);
     const handlePageChange = (pageNumber) => {
         console.log(`active page is ${pageNumber}`);
@@ -15,7 +15,6 @@ const Display = (props) => {
       }
     return (
         <div className="col-lg-8 col-md-9 mx-auto main">
-            
             {article.length > 0 ? <ViewPost  /> : <CardList posts={filteredArticles.length > 0 ? filteredArticles : articles} />}
             {articles.length > 0 ?  <div className="paginator"><Pagination
                  activePage={activePage}

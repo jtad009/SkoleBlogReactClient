@@ -1,6 +1,6 @@
 import React,{useContext} from 'react';
 import {BlogContext} from '../Store/Store';
-import { BallPulseSync,BallScaleMultiple } from 'react-pure-loaders';
+import { BallPulseSync } from 'react-pure-loaders';
 
 const EmptyCard = () => {
     const {loading} = useContext(BlogContext);

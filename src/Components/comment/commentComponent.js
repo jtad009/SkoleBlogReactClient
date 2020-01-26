@@ -3,7 +3,7 @@ import { FaLocationArrow,FaComments } from 'react-icons/fa';
 import { postComment, addAuthor } from '../../article';
 import { BlogContext } from '../../Store/Store';
 import Popup from "reactjs-popup";
-import { BallBeat, BallPulseSync, BallScaleMultiple } from 'react-pure-loaders';
+import { BallPulseSync, BallScaleMultiple } from 'react-pure-loaders';
 import { addData, clearStore } from '../../db';
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 import CommentItem from './commentItemComponent';

@@ -1,13 +1,13 @@
 import React, {useContext, useState} from 'react';
 import Register from './RegisterComponent';
-import {Link,Switch,Route, Redirect} from 'react-router-dom';
+import {Switch,Route, Redirect} from 'react-router-dom';
 import { BlogContext } from '../../Store/Store';
 import { BallBeat } from 'react-pure-loaders';
 import App from '../../App';
-import toaster from 'toasted-notes';
+
 const Auth = (props ) => {
     const {changeUserValues,login, loggedIN,loginLoading, authError} = useContext(BlogContext);
-    const [loading, setLoading] = useState(false);
+    
     if(loggedIN){
        
        return (

@@ -5,14 +5,14 @@ import { BlogContext } from '../Store/Store';
 import CardList from './CardListComponent';
 import {API_ENDPOINTS, loadArticlesByCategoryID} from '../article';
 import TagsV2 from './TagsV2'
-import UserCard from './UserCardComponent'
+
 
 const ViewPost = (params) => {
     const [similar, setSimilar] = useState([]);
     const capName = (name) => {
         return name.charAt(0).toUpperCase()+name.slice(1)
     }
-    const { article, onReset, onCategoryChange } = useContext(BlogContext);
+    const { article, onReset } = useContext(BlogContext);
     const body = article[0].article.replace(/font-family: Alegreya;/gi,"").replace(/font-family: Roboto;/gi,'');
     var image = new Image();
     image.src =  article[0].user.image;
@@ -31,7 +31,7 @@ const ViewPost = (params) => {
             // console.log(response)
             setSimilar( response.response.data.articles)
         })
-    },[])
+    })
     return (
         
         <div className="text-justify bg-white p-3">

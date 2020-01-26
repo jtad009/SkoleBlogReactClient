@@ -3,10 +3,11 @@ import { BlogContext } from '../../Store/Store';
 import TagsV2 from '../TagsV2';
 import { findTags } from '../../article';
 import { BallBeat } from 'react-pure-loaders';
-import { addTags } from '../../article'
+import { addTags, editArticle } from '../../article'
 import Editor from '../QuillComponent'
 import ReactDOM from "react-dom";
 import SelectCategory from '../CategoriesComponent'
+
 const state = {
     category_id: 0,
     title: '',
@@ -15,7 +16,7 @@ const state = {
     tags: [],
     cover_image: ''
 }
-const AddArticle = () => {
+const EditArticle = ({ articleData, open }) => {
     const node = ReactDOM.findDOMNode(this);
 
     const [category_id, setCategoryId] = useState(state.category_id)
@@ -23,15 +24,33 @@ const AddArticle = () => {
     const [article, setArticle] = useState(state.article)
     const [published, setPublished] = useState(state.published)
     const [cover_image, setCoverImage] = useState(state.cover_image)
-    const [tags, setTags] = useState(state.tags)
+    const [tags, setTags] = useState([])
     const [loading, setLoading] = useState(false);
-    
 
-    const { addArticle, user, categories } = useContext(BlogContext);
-   
+
+    const { user, categories } = useContext(BlogContext);
+    const updateArticle = (event) => {
+        event.preventDefault();
+        const data = new FormData(event.target);
+        data.delete('participants[]');
+        data.delete('tags[]')
+        var values = [];
+        var fields = document.getElementsByName("tags[]");
+        for (var i = 0; i < fields.length; i++) {
+            values.push(fields[i].value);
+        }
+        data.append('tags', values)
+        console.log(values);
+        for(var pair of data.entries()) {
+            console.log(pair[0]+ ', '+ pair[1]); 
+         }
+        // editArticle()
+    }
     const listClick = (event) => {
-        console.log(event.target.className)
-        state.tags.push(event.target.getAttribute('dataId'))
+        console.log(JSON.parse(event.target.getAttribute('dataobject')))
+        
+        setTags([...tags, JSON.parse(event.target.getAttribute('dataobject'))]);
+        console.log(tags)
         var span = document.createElement('span');
         var span_title = document.createElement('span');
         var participants = document.createElement('input');
@@ -50,7 +69,7 @@ const AddArticle = () => {
         participants.value = event.target.dataId;
 
         participants_text.setAttribute('type', 'hidden');
-        participants_text.setAttribute('name', 'text_participants[]');
+        participants_text.setAttribute('name', 'tags[]');
         participants_text.setAttribute('autocomplete', 'off');
         participants_text.value = event.target.id;
 
@@ -71,17 +90,17 @@ const AddArticle = () => {
                 if (res.status === 200) {
                     setLoading(false)
                     document.querySelector("#tokenarea").appendChild(span);
-                    
-               }
+
+                }
             });
-        }else{
+        } else {
 
             document.querySelector("#tokenarea").appendChild(span);
-        
-         }
-    const child = document.querySelector('.hidden_elem');
-    child.setAttribute('style', 'display:none');
-    document.querySelector('.inputtext').value = "";
+
+        }
+        const child = document.querySelector('.hidden_elem');
+        child.setAttribute('style', 'display:none');
+        document.querySelector('.inputtext').value = "";
     }
     const filterTags = (event) => {
 
@@ -99,7 +118,6 @@ const AddArticle = () => {
                         document.querySelector('#typeahead_list_js_e').innerHTML = "";
                         if (response.response.data.length > 0) {
                             response.response.data.map(tagList => {
-                                state.tags = (response.response.data)
                                 var li = document.createElement('li');
 
                                 var span_text = document.createElement('span');
@@ -108,7 +126,7 @@ const AddArticle = () => {
                                 li.setAttribute('class', 'user');
                                 li.setAttribute('title', tagList.tag);
                                 li.setAttribute('id', 'js_p');
-
+                                span_text.setAttribute('dataObject', JSON.stringify(tagList))
                                 span_text.addEventListener('click', listClick)
                                 span_text.setAttribute('id', tagList.tag);
                                 span_text.setAttribute('dataId', tagList.id);
@@ -142,9 +160,14 @@ const AddArticle = () => {
                 });
         }
     }
+
+    /**
+     * REMOVE NODE PRARENT FROM DOM AND THE REMOVE TAG FROM STATE
+     */
     const remove = (event) => {
+
         event.preventDefault()
-        document.querySelector("#" + event.target.id).parentNode.remove()
+        document.querySelector(`#{event.target.id}`).parentNode.remove()
     }
 
     const changeArticleData = (event) => {
@@ -172,37 +195,49 @@ const AddArticle = () => {
             default:
         }
     }
+    useEffect(() => {
+        setCategoryId(articleData.category_id);
 
+    }, [articleData.category_id]);
+    
+    useEffect(()=>{
+        console.log(tags);
+        articleData.tags.push(...tags);
+        console.log(articleData);
+    },[tags]);
+    
     return (
+       
         <div className="row">
+            {console.log(articleData.tags)};
             <div className="col-lg-8 col-md-10 mx-auto">
                 <div className="col-lg-12 mt-3">
 
                     <div className="articles card">
-                        <form onSubmit={addArticle} encType="multipart/form-data" method="post" acceptCharset="utf-8" action="/skole/blog/articles/add">
+                        <form onSubmit={updateArticle} encType="multipart/form-data" method="post" acceptCharset="utf-8" action="/skole/blog/articles/add">
 
                             <fieldset className="card-body">
 
                                 <div className="form-group"><label htmlFor="category-id">Category</label>
-                                    <SelectCategory categories={categories}/>
+                                    <SelectCategory categories={categories} defaultValue={category_id} />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="title">Title</label>
-                                    <input onChange={changeArticleData} type="text" name="title" className="form-control" required="required" maxLength="200" id="title" />
+                                    <input onChange={changeArticleData} defaultValue={articleData.title} type="text" name="title" className="form-control" required="required" maxLength="200" id="title" />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="cover-image">Cover Image</label>
                                     <input onChange={changeArticleData} type="file" name="cover_image" className="form-control" id="cover_image" />
                                 </div>
                                 <div className="form-group form-group-sm">
-                                <Editor placeholder={'Write something...'}/>
-                                    <textarea  name="article" className="article form-control" style={{display:'none'}}placeholder="enter message" id="article" maxLength="100000" rows="5"></textarea>
+                                    <Editor placeholder={'Write something...'} defaultText={articleData.article} />
+                                    <textarea name="article" className="article form-control" style={{ display: 'none' }} placeholder="enter message" id="article" maxLength="100000" rows="5"></textarea>
                                 </div>
                                 <div className="form-group">
                                     <input type="hidden" name="published" value="0" className="form-control" />
                                     <label htmlFor="published">
-                                        <input onChange={changeArticleData} type="checkbox" name="published" value="1" id="published" />Published
-                        </label>
+                                        <input onChange={changeArticleData} type="checkbox" name="published" value="1" id="published" className="ml-3" />Published
+                                    </label>
                                 </div>
 
                                 {/* <div className="form-group"> */}
@@ -218,14 +253,12 @@ const AddArticle = () => {
                                         <div style={{ 'width': '34px' }}>
                                             <div className="uiTypeaheadView uiContextualTypeaheadView uiInlineTokenizerView hidden_elem">
                                                 <ul className="compact" id="typeahead_list_js_e" role="listbox">
-
-
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                {<TagsV2 tags={[]} view={false} filter={filterTags} />}
+                                {<TagsV2 tags={articleData.tags} view={false} filter={filterTags} removeNode={remove} />}
 
                                 {/* </div> */}<br />
                                 <br />
@@ -237,5 +270,6 @@ const AddArticle = () => {
             </div>
         </div>
     );
+
 }
-export default AddArticle;
+export default EditArticle;

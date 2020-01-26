@@ -42,13 +42,15 @@ class CardList extends React.Component {
         <div className="row">
           {this.props.posts.length === 0 || this.context.loading ? <EmptyCard text=""/> :
             this.props.posts.map((article, i) => {
+             
               return (
                 <Card
+                  index = {i}
                   key={this.props.posts[i].id}
                   id={this.props.posts[i].id}
                   title={this.props.posts[i].title}
                   excerpt={this.props.posts[i].ExtractExcerpt}
-                  cover={this.props.posts[i].cover_image.length > 0 ? 'http://skole.com.ng/webroot/img/passport/blogs/' + this.props.posts[i].cover_image : 'img/bg-post.jpg'}
+                  cover={this.props.posts[i].cover_image.length > 0 ? 'http://skole.com.ng/webroot/img/passport/blogs/' + this.props.posts[i].cover_image : '/img/pic.jpeg'}
                   slugs={this.props.posts[i].slug.toLowerCase()}
                   category={this.props.posts[i].category.category}
                   category_id={this.props.posts[i].category_id}
@@ -58,6 +60,7 @@ class CardList extends React.Component {
                   created={this.props.posts[i].created}
                   readTime={this.props.posts[i].readTime}
                   author_id={this.props.posts[i].user_id}
+                  comments = {this.props.posts[i].comments}
                 />
               );
             })

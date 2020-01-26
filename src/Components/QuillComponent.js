@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
  class Editor extends React.Component {
     constructor(props) {
       super(props)
-      this.state = { text: '' } // You can also pass a Quill Delta here
+      this.state = { text: this.props.defaultText } // You can also pass a Quill Delta here
       this.handleChange = this.handleChange.bind(this)
     }
    

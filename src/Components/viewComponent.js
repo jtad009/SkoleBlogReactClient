@@ -1,31 +1,58 @@
 import React from 'react';
-import { FaArrowLeft, FaAngleRight, FaFolderOpen,FaNewspaper } from "react-icons/fa";
+import { FaArrowLeft, FaAngleRight, FaFolderOpen,FaNewspaper,FaPencilAlt } from "react-icons/fa";
 import { BlogContext } from '../Store/Store';
 import {  getArticleById } from '../article';
 import TagsV2 from './TagsV2';
 import EmptyCard from './EmptyCardComponent';
 import CommentComponent from './comment/commentComponent';
-
+import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 import { findBySlug } from "../db";
-import { BallBeat,BallRotate, BallScaleMultiple } from 'react-pure-loaders';
-import {Link} from 'react-router-dom';
 
+import {Link} from 'react-router-dom';
+import EditArticle from './Author/editArticleComponent';
+const styles={
+    title:{
+        backgroundColor: 'rgb(220, 53, 69)',
+        padding: '16px 0',
+        boxSizing: 'border-box',
+        color: 'white',
+        minHeight: '64px',
+        fontSize: '24px',
+        textAlign: 'center',
+        flex:1
+    },
+    text:{
+        padding: '10px',
+        boxSizing: 'border-box',
+        backgroundColor: 'white',
+        fontSize: '18px',
+        minHeight: '50vh'
+    }
+};
 class ViewComponent extends React.Component {
     static contextType = BlogContext;
+    
     constructor(props) {
         super(props);
-        
         this.state = {
             article: {},
             loading: true,
+            openSheets: false,
         };
+        
+    }
+    openBSheet = (e)=>{
+        e.preventDefault();
+        this.setState({
+            openSheets : !this.state.openSheets
+        })
     }
     componentDidMount() {
         
         getArticleById(this.props.match.params.slug)
             .then(response => response.json())
             .then(res => {
-                console.log(res);
+                
                 const {setCurrentArticle} = this.context;
                 setCurrentArticle(res.response.data);
                 document.title = `${res.response.data.title} | SkoleBlog `;
@@ -76,8 +103,10 @@ class ViewComponent extends React.Component {
         let d = new Date(date)
         return `${d.getDay()} ${month[d.getMonth()]} ${d.getUTCFullYear()}`
     }
+    
+
     render() {
-        const {loggedIN}  = this.context;
+        
        
        
             if (!this.state.loading) {
@@ -99,13 +128,15 @@ class ViewComponent extends React.Component {
                     {
     
                         (context) => {
-                            const { onReset } = context;
+                            const { onReset ,user} = context;
                             return (
                                 <div >
                                     <div className="text-justify bg-white p-3 readArea" >
                                     <div>
                                         <h4 className="text-muted"><b>{this.state.article.title}</b></h4>
-                                        <i style={{fontSize:'12px'}}>Published on {this.getDate(this.state.article.created)}</i>
+                                        <i style={{fontSize:'12px'}}>Published on {this.getDate(this.state.article.created)}
+                                         { user.user_code == this.state.article.user_id ? <a href="/" onClick={this.openBSheet} className="ml-3"><FaPencilAlt/> Edit Article</a> : ''}
+                                        </i>
 
                                     </div>
                                     <hr/>
@@ -132,6 +163,15 @@ class ViewComponent extends React.Component {
                                    
                                     {<CommentComponent article_id={this.state.article.id} comments={this.state.article.comments}/>}
                                 </div>
+                                <SwipeableBottomSheet  	open={this.state.openSheets}   onChange={this.openBSheet.bind(this)}     fullscreen	>
+                                    <div style={styles.title}>
+                                        Edit article&nbsp;
+                                        
+                                    </div>
+                                    <div style={styles.text}>
+                                        <EditArticle closeModal={this.openBSheet} articleData={this.state.article} open={this.state.openSheets}/>
+                                    </div>
+                                </SwipeableBottomSheet>
                                 </div>
                             );
                 }
