@@ -1,25 +1,14 @@
-import React from 'react';
-import { FaSearch } from "react-icons/fa";
+import React, { useContext } from 'react';
+import { BlogContext } from '../Store/Store';
 
-const SearchBox = ({searchfield, searchchange}) => {
+const SearchBox = () => {
+    const { searchChange } = useContext(BlogContext);
     return (
-        <li className="nav-item">
-
-            <form className="">
-                <div className="input-group">
-                    <input className="form-control" type="search" placeholder="Search articles" id="searchParam"  onChange={searchchange}/>
-
-                        <span className="input-group-btn">
-                            <button className="btn btn-primary" type="button">
-                               <FaSearch/>
-                            </button>
-                        </span>
+        <form className="my-2 my-lg-0 mr-lg-2">
+            <div className="input-group">
+                <input className="form-control" type="text" onChange={searchChange} placeholder="Search blog" id="searchParam" autocomplete="off" data-id="students" />
             </div>
-         </form>
-       
-                  
-            
-        </li>
-            );
-        }
-        export default SearchBox;
+        </form>
+    );
+}
+export default SearchBox;

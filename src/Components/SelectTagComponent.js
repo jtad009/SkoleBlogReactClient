@@ -1,17 +1,17 @@
-import React,{Component} from 'react';
+import React,{useContext} from 'react';
+import { BlogContext } from '../Store/Store';
 
-class SelectTag extends Component{
+const SelectTag = (props) => {
     
-
-    render(){
-        return (
-            <select className="form-control" key="tags" onChange={this.props.onchange}>
+    const {tagChange} = useContext(BlogContext);
+    return (
+            <select className="form-control" key="tags" onChange={tagChange}>
                 <option key="tag23"  value=""> Filter by tag </option>
                 {
-                    this.props.tags.map((tag, i) => {
+                    props.tags.map((tag, i) => {
                         return (
-                            <option key={this.props.tags[i].id} id={this.props.tags[i].id} value={this.props.tags[i].id}> 
-                            {this.props.tags[i].tag}
+                            <option key={props.tags[i].id} id={props.tags[i].id} value={props.tags[i].id}> 
+                            {props.tags[i].tag}
                             </option>
                             
                         )
@@ -19,7 +19,7 @@ class SelectTag extends Component{
                 }
             </select>
         );
-    }
+    
    
 }
 
