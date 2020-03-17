@@ -8,10 +8,7 @@ import { BlogContext } from '../Store/Store';
  */
 const TagsV2 = ({ tags, view = true, filter = null, loading = false, tagCount = 0, removeNode}) => {
     const { tagChange } = useContext(BlogContext);
-    useEffect(()=>{
-        console.log(tags);
-    }, [tags]);
-
+    
     /**
      * Remove tag from DOM
      */

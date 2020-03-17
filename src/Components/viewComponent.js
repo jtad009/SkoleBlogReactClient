@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaArrowLeft, FaAngleRight, FaFolderOpen,FaNewspaper,FaPencilAlt } from "react-icons/fa";
 import { BlogContext } from '../Store/Store';
-import {  getArticleById } from '../article';
+import {  getArticleById,loadSimilar } from '../article';
 import TagsV2 from './TagsV2';
 import EmptyCard from './EmptyCardComponent';
 import CommentComponent from './comment/commentComponent';
@@ -10,6 +10,8 @@ import { findBySlug } from "../db";
 
 import {Link} from 'react-router-dom';
 import EditArticle from './Author/editArticleComponent';
+import ReactTooltip from 'react-tooltip';
+import SimilarArticles from './similarArticleComponent';
 const styles={
     title:{
         backgroundColor: 'rgb(220, 53, 69)',
@@ -38,22 +40,43 @@ class ViewComponent extends React.Component {
             article: {},
             loading: true,
             openSheets: false,
+            similar:[]
         };
         
     }
+    /**
+     * Open bottom sheet
+     */
     openBSheet = (e)=>{
-        e.preventDefault();
+        
         this.setState({
             openSheets : !this.state.openSheets
-        })
+        });
+        if(this.state.openSheets === true){
+            console.log(this.state.openSheets)
+            
+            document.querySelector('nav').style.display='block'
+        }else{
+            console.log(this.state.openSheets)
+            
+            document.querySelector('nav').style.display='none';
+        }
     }
+
+    setArticleAfterEdit = (data)=>{
+        
+        this.setState({
+            article:data
+        });
+    }
+
     componentDidMount() {
         
         getArticleById(this.props.match.params.slug)
             .then(response => response.json())
             .then(res => {
                 
-                const {setCurrentArticle} = this.context;
+                const {setCurrentArticle,user} = this.context;
                 setCurrentArticle(res.response.data);
                 document.title = `${res.response.data.title} | SkoleBlog `;
                 let desc = document.querySelector('meta[name="description"]').getAttribute('content');
@@ -68,6 +91,13 @@ class ViewComponent extends React.Component {
                     article: res.response.data,
                     loading: false,
                 });
+                loadSimilar(user.public_key, res.response.data.id,res.response.data.category_id,res.response.data.tags)
+                .then(response => {
+                    console.log(response.data.response.data)
+                    this.setState({
+                        similar:response.data.response.data
+                    });
+                })
             })
             .catch(err => {
                 console.log("Error from failed connection or otherwise, search fro data on IndexDB");
@@ -104,12 +134,10 @@ class ViewComponent extends React.Component {
         return `${d.getDay()} ${month[d.getMonth()]} ${d.getUTCFullYear()}`
     }
     
+    
 
     render() {
-        
-       
-       
-            if (!this.state.loading) {
+        if (!this.state.loading) {
                 const body = this.state.article.article
                 
                 // .replace(/font-family: Alegreya;/gi, "")
@@ -135,7 +163,7 @@ class ViewComponent extends React.Component {
                                     <div>
                                         <h4 className="text-muted"><b>{this.state.article.title}</b></h4>
                                         <i style={{fontSize:'12px'}}>Published on {this.getDate(this.state.article.created)}
-                                         { user.user_code == this.state.article.user_id ? <a href="/" onClick={this.openBSheet} className="ml-3"><FaPencilAlt/> Edit Article</a> : ''}
+                                         { user.user_code == this.state.article.user_id ? <a href="#" onClick={this.openBSheet} className="ml-3" data-tip="Click to edit this article"><FaPencilAlt/> <ReactTooltip /> Edit Article</a> : ''}
                                         </i>
 
                                     </div>
@@ -158,7 +186,7 @@ class ViewComponent extends React.Component {
                                     {this.state.article.tags.length !== undefined ? <TagsV2 tags={this.state.article.tags} /> : ''}
     
                                     <p className="text-muted font-weight-bold mt-3 text-uppercase">Related Articles</p>
-                                    {/* {similar.length > 0 ?  <CardList posts={similar} /> : ''} */}
+                                    {this.state.similar.length > 0 ?  <SimilarArticles similar={this.state.similar} /> : ''}
                                    
                                    
                                     {<CommentComponent article_id={this.state.article.id} comments={this.state.article.comments}/>}
@@ -166,10 +194,12 @@ class ViewComponent extends React.Component {
                                 <SwipeableBottomSheet  	open={this.state.openSheets}   onChange={this.openBSheet.bind(this)}     fullscreen	>
                                     <div style={styles.title}>
                                         Edit article&nbsp;
-                                        
+                                        <button  onClick={this.openBSheet} className="btn" data-tip="Close" style={{color:'white !important', float: 'right', marginRight: '10px'}}>
+							                    x <ReactTooltip /> 
+						                </button>
                                     </div>
                                     <div style={styles.text}>
-                                        <EditArticle closeModal={this.openBSheet} articleData={this.state.article} open={this.state.openSheets}/>
+                                        <EditArticle setArticle={this.setArticleAfterEdit} closeModal={this.openBSheet} articleData={this.state.article} open={this.state.openSheets}/>
                                     </div>
                                 </SwipeableBottomSheet>
                                 </div>

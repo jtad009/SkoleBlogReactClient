@@ -52,7 +52,7 @@ const Header = (props) => {
                         <div className="col-lg-8 col-md-10 mx-auto">
                             <div className="page-heading" >
                                 {/* <h1 className="titleName" style={{background:'#000',color:'#fff',borderRadius:'12px'}}>Posts</h1> */}
-                                {console.log(window.location.href.includes('view'))}
+                              
                                 { window.location.href.includes('view') || window.location.href.includes('user')  ? '' : <SearchBox/> }
                             </div>
                             
@@ -61,7 +61,7 @@ const Header = (props) => {
                 </div>}
             <div className="row ">
                 
-                <div className="col-lg-12 ">
+                <div className="col-lg-12 " style={{borderBottom:'2px solid #f6f6f6'}}>
                 
                     {filterCriteria.type !== undefined ?
                         <ol className="breadcrumb bg-white">

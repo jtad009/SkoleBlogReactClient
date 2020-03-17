@@ -20,13 +20,14 @@ export const API_ENDPOINTS={
         'FETCH_ARTICLE_BY_TAGID': 'http://localhost/skole/blog/api/v1/tags/view/',
         'FETCH_ARTICLE_BY_CATEGORYID':'http://localhost/skole/blog/api/v1/categories/view/',
         'ADD_ARTICLE':'http://localhost/skole/blog/api/v1/articles/add.json',
-        'EDIT_ARTICLE':'http://localhost/skole/blog/api/v1/articles/edit',
+        'EDIT_ARTICLE':'http://localhost/skole/blog/api/v1/articles/edit/',
         'FIND_TAG':'http://localhost/skole/blog/api/v1/tags/find/',
         'ADD_TAG':'http://localhost/skole/blog/api/v1/tags/add.json',
         'FETCH_AUTHOR':'http://localhost/skole/blog/api/v1/authors/login.json',
         'POST_COMMENT':'http://localhost/skole/blog/api/v1/comments/add.json',
         'ADD_AUTHOR':'http://localhost/skole/blog/api/v1/authors/add.json',
         'EDIT_AUTHOR':'http://localhost/skole/blog/api/v1/authors/edit/',
+        'SIMILAR_ARTICLES':'http://localhost/skole/blog/api/v1/articles/similar.json',
     },
     production:{
         'HOMEPAGE':'https://blog.skole.com.ng',
@@ -37,15 +38,36 @@ export const API_ENDPOINTS={
         'FETCH_ARTICLE_BY_TAGID': 'https://skole.com.ng/blog/api/v1/tags/view/',
         'FETCH_ARTICLE_BY_CATEGORYID':'https://skole.com.ng/blog/api/v1/categories/view/',
         'ADD_ARTICLE':'https://skole.com.ng/blog/api/v1/articles/add.json',
-        'EDIT_ARTICLE':'https://skole.com.ng/blog/api/v1/articles/edit',
+        'EDIT_ARTICLE':'https://skole.com.ng/blog/api/v1/articles/edit/',
         'FIND_TAG':'https://skole.com.ng/blog/api/v1/tags/find/',
         'ADD_TAG':'https://skole.com.ng/blog/api/v1/tags/add.json',
         'FETCH_AUTHOR':'https://skole.com.ng/blog/api/v1/authors/login.json',
         'POST_COMMENT':'https://skole.com.ng/blog/api/v1/comments/add.json',
         'ADD_AUTHOR':'https://skole.com.ng/blog/api/v1/authors/add.json',
         'EDIT_AUTHOR':'https://skole.com.ng/blog/api/v1/authors/edit/',
+        'SIMILAR_ARTICLES':'https://skole.com.ng/blog/api/v1/articles/similar.json',
     }
 };
+export async function loadSimilar(pk, article_id, category_id,tags){
+    return await axios({
+        method: 'POST', //you can set what request you want to be
+        url: window.location.host.includes('localhost') ?
+        API_ENDPOINTS.dev.SIMILAR_ARTICLES : API_ENDPOINTS.production.SIMILAR_ARTICLES,
+        data: {'article_id':article_id,'category_id':category_id,'tags':tags},
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true,
+            'Access-Control-Allow-Headers': 'Origin, Content-Type, Authorization, X-Requested-With',
+            'Content-Type': 'application/json',
+            
+            'Pragma': 'no-cache',
+            'Cache-Control': 'no-cache',
+            'Authorization': 'Basic '+pk,
+            
+        }
+      });
+   
+}
 /**
  * Get a sharable link for the article
  * @param {String} slug 

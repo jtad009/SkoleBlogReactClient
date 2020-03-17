@@ -21,6 +21,19 @@ and open the template in the editor.
     
     font-size:24px
 }
+.image-placeholder{
+  background-color:#eee;
+  display:flex;
+  height:120px;
+  margin:5px;
+  width:97%;
+}
+.image-placeholder > h4{
+  align-self:center;
+  text-align:center;
+  width:100%
+}
+
 .css-118m408-BallScaleMultiple{
     margin-left:50%
 }

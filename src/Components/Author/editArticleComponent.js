@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react'  ;
 import { BlogContext } from '../../Store/Store';
 import TagsV2 from '../TagsV2';
 import { findTags } from '../../article';
@@ -7,6 +7,10 @@ import { addTags, editArticle } from '../../article'
 import Editor from '../QuillComponent'
 import ReactDOM from "react-dom";
 import SelectCategory from '../CategoriesComponent'
+import ReactTooltip from 'react-tooltip';
+import { BallPulseSync } from 'react-pure-loaders';
+import toast from 'toasted-notes' 
+import 'toasted-notes/src/styles.css';
 
 const state = {
     category_id: 0,
@@ -16,16 +20,24 @@ const state = {
     tags: [],
     cover_image: ''
 }
-const EditArticle = ({ articleData, open }) => {
+/**
+ * Edit article component
+ * @param {*} articleData
+ * @param bool open
+ * @param fn closeModal
+ * @param fn setArticle set the updated version of the article 
+ */
+const EditArticle = ({ articleData, open,closeModal,setArticle }) => {
     const node = ReactDOM.findDOMNode(this);
-
+    
     const [category_id, setCategoryId] = useState(state.category_id)
     const [title, setTitle] = useState(state.title)
-    const [article, setArticle] = useState(state.article)
+    
     const [published, setPublished] = useState(state.published)
     const [cover_image, setCoverImage] = useState(state.cover_image)
     const [tags, setTags] = useState([])
     const [loading, setLoading] = useState(false);
+    const [saving, setSaving] = useState(false);
 
 
     const { user, categories } = useContext(BlogContext);
@@ -40,17 +52,33 @@ const EditArticle = ({ articleData, open }) => {
             values.push(fields[i].value);
         }
         data.append('tags', values)
-        console.log(values);
-        for(var pair of data.entries()) {
-            console.log(pair[0]+ ', '+ pair[1]); 
-         }
-        // editArticle()
+        if(data.get('article').length === 0){
+            data.append('article',document.querySelector('.ql-editor').innerHtml)
+        }
+        // for(var pair of data.entries()) {
+        //     console.log(pair[0]+ ', '+ pair[1]); 
+        //  }
+        setSaving(true);
+        editArticle(user.public_key,articleData.id,data)
+        .then(response => {
+            setSaving(false);
+            if(response.data.response.code === 200){
+               closeModal();
+                articleData = response.data.response.data;
+                setArticle(articleData);
+                toast.notify(`Article update was successful`);
+            }else{
+                toast.notify(`Article update was un-successful`);
+            }
+            
+
+        });
     }
     const listClick = (event) => {
-        console.log(JSON.parse(event.target.getAttribute('dataobject')))
+        
         
         setTags([...tags, JSON.parse(event.target.getAttribute('dataobject'))]);
-        console.log(tags)
+        
         var span = document.createElement('span');
         var span_title = document.createElement('span');
         var participants = document.createElement('input');
@@ -89,13 +117,13 @@ const EditArticle = ({ articleData, open }) => {
                 console.log(res.status)
                 if (res.status === 200) {
                     setLoading(false)
-                    document.querySelector("#tokenarea").appendChild(span);
+                    document.querySelector(".edit #tokenarea").appendChild(span);
 
                 }
             });
         } else {
-
-            document.querySelector("#tokenarea").appendChild(span);
+            
+            document.querySelector(".edit #tokenarea").appendChild(span);
 
         }
         const child = document.querySelector('.hidden_elem');
@@ -200,16 +228,11 @@ const EditArticle = ({ articleData, open }) => {
 
     }, [articleData.category_id]);
     
-    useEffect(()=>{
-        console.log(tags);
-        articleData.tags.push(...tags);
-        console.log(articleData);
-    },[tags]);
     
     return (
        
-        <div className="row">
-            {console.log(articleData.tags)};
+        <div className="row edit">
+            
             <div className="col-lg-8 col-md-10 mx-auto">
                 <div className="col-lg-12 mt-3">
 
@@ -231,12 +254,13 @@ const EditArticle = ({ articleData, open }) => {
                                 </div>
                                 <div className="form-group form-group-sm">
                                     <Editor placeholder={'Write something...'} defaultText={articleData.article} />
-                                    <textarea name="article" className="article form-control" style={{ display: 'none' }} placeholder="enter message" id="article" maxLength="100000" rows="5"></textarea>
+                                    <textarea name="article" defaultValue={articleData.article} className="article form-control" style={{ display: 'none' }} placeholder="enter message" id="article" maxLength="100000" rows="5"></textarea>
                                 </div>
                                 <div className="form-group">
-                                    <input type="hidden" name="published" value="0" className="form-control" />
+                                    {/* <input type="hidden" name="published" value="0" className="form-control" /> */}
                                     <label htmlFor="published">
-                                        <input onChange={changeArticleData} type="checkbox" name="published" value="1" id="published" className="ml-3" />Published
+                                        <ReactTooltip/>
+                                        <input data-tip="Should publish article to the web or not?" onChange={changeArticleData} type="checkbox" name="published"  checked={articleData.published} id="published" />&nbsp;&nbsp;&nbsp;Published
                                     </label>
                                 </div>
 
@@ -258,11 +282,14 @@ const EditArticle = ({ articleData, open }) => {
                                         </div>
                                     </div>
                                 </div>
-                                {<TagsV2 tags={articleData.tags} view={false} filter={filterTags} removeNode={remove} />}
+                                {<TagsV2 tags={[...articleData.tags]} view={false} filter={filterTags} removeNode={remove} />}
 
                                 {/* </div> */}<br />
                                 <br />
-                                <button className="btn btn-block btn-primary" type="submit">Submit</button>
+                                <div style={{textAlign:'center'}}><BallPulseSync color="#379392" loading={saving} style={{textCenter:'center'}}/></div>
+                               
+                                <button className="btn btn-block btn-primary" type="submit" disabled={loading || saving}>{(loading || saving) ? "please waiting..." : "Submit"}</button>
+                                
                             </fieldset>
 
                         </form></div>

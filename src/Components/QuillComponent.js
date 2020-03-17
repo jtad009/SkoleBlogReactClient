@@ -8,7 +8,9 @@ import PropTypes from 'prop-types'
       this.state = { text: this.props.defaultText } // You can also pass a Quill Delta here
       this.handleChange = this.handleChange.bind(this)
     }
-   
+   componentDidMount(){
+    document.querySelector('.ql-editor').focus();
+   }
     handleChange(value) {
       this.setState({ text: value })
       
@@ -33,7 +35,7 @@ import PropTypes from 'prop-types'
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [{'list': 'ordered'}, {'list': 'bullet'}, 
        {'indent': '-1'}, {'indent': '+1'}],
-      ['link', 'image', 'video'],
+      ['link', 'image', 'video','code','indent'],
       ['clean']
     ],
     clipboard: {

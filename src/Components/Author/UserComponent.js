@@ -35,7 +35,7 @@ const UserProfile = () => {
     const openBSheet = (e)=>{
         // e.preventDefault();
         setOpenSheet(!openSheet);
-        console.log(document.querySelector('nav'))
+       
         if(openSheet === true){
             console.log(openSheet)
             
