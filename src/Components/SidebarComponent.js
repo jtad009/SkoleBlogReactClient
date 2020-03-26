@@ -1,63 +1,35 @@
-import React, { Component } from 'react';
-import { tags, categories, tagIDWithArticles, filterByCategory } from '../article';
+import React, { useContext } from 'react';
+
 import Taglist from './TaglistComponent';
 import SelectTag from './SelectTagComponent';
-import SelectCategory from './CategoriesComponent';
-import { Route, Link, Redirect } from "react-router-dom";
-import TagFiltered from './TagFilteredComponent';
+import { BlogContext } from '../Store/Store';
 
-class Sidebar extends Component {
 
-    constructor(){
-        super();
-        this.state = {
-            sortByCategory: false,
-            category: ''
-        };
-    }
-    onCategoryChange = (event) => {
-        console.log(event.target.value);
-        this.setState({
-            sortByCategory: true,
-            category: event.target.value
-        });
-        // 
-        return (
-            <span>
-                
-                {/* <Link to={'/article/categories/' + event.target.value} className="tag"></Link>
-                <Route path='/article/categories/:id' exact strict render={({ match }) => {
-                    // eslint-disable-next-line no-unused-expressions
-                    (<TagFiltered id={match.params.id} />)
-                }} /> */}
-            </span>
-        );
-    };
+const Sidebar = (props) => {
+    const { tags, article}  = useContext(BlogContext);
+    return (
 
-    tagChange = (event) => {
-        console.log(event.target.value)
-    };
-    render() {
-        if(this.state.sortByCategory){
-          
-           return <Redirect to={'/article/categories/' + this.state.category}/>
-           
-        }
-        return (
-            <div className="col-md-3 mb-2">
-                <div id="mySidenav" className="sidenav" >
-                    <SelectCategory categories={categories} onchange={this.onCategoryChange} />
-                    <h5 className="hidden-xs mt-4 mt-2">Fliter By Tags <hr /></h5>
-                    <div className="d-md-none">
+        article.length === undefined  ? 
+        <div className="col-md-3 mb-2">
+            <div id="mySidenav" className="sidenav" >
 
-                        <SelectTag tags={tags} onchange={this.tagChange} />
-                    </div>
-                    <div className="d-none d-md-block">
-                        <Taglist tags={tags} articles={tagIDWithArticles[0].articles} />
-                    </div>
+                {/* <SelectCategory categories={categories} /> */}
+
+                <h5 className="hidden-xs mt-4 mt-2 d-none d-md-block">Fliter By Tags <hr /></h5>
+                <div className="d-md-none">
+
+                    <SelectTag tags={tags} />
+
+                </div>
+                <div className="d-none d-md-block">
+                    <Taglist tags={tags}  />
                 </div>
             </div>
-        );
-    }
+        </div>
+       : '' 
+
+
+    );
+
 }
 export default Sidebar;

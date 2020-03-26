@@ -2,13 +2,14 @@ import React from 'react';
 
 import Card from './CardComponent';
 import EmptyCard from './EmptyCardComponent';
-
+import {BlogContext} from '../Store/Store';
 
 class CardList extends React.Component {
+   static contextType = BlogContext;
   constructor(props) {
     
     super(props);
-    // console.log(this.props);
+   
     this.state = {
       posts: this.props.posts,
       article_id: '',
@@ -39,21 +40,27 @@ class CardList extends React.Component {
     // }else{
       return (
         <div className="row">
-          {this.props.posts.length === 0 ? <EmptyCard /> :
+          {this.props.posts.length === 0 || this.context.loading ? <EmptyCard text=""/> :
             this.props.posts.map((article, i) => {
+             
               return (
                 <Card
+                  index = {i}
                   key={this.props.posts[i].id}
                   id={this.props.posts[i].id}
                   title={this.props.posts[i].title}
-                  excerpt={this.props.posts[i].article.substr(0, 50)}
-                  cover={this.props.posts[i].cover_image.length > 0 ? this.props.posts[i].cover_image : "avatar.png"}
-                  slugs={this.props.posts[i].slug}
-                  category={this.props.posts[i].categories.category}
+                  excerpt={this.props.posts[i].ExtractExcerpt}
+                  cover={this.props.posts[i].cover_image.length > 0 ? 'http://skole.com.ng/webroot/img/passport/blogs/' + this.props.posts[i].cover_image : '/img/pic.jpeg'}
+                  slugs={this.props.posts[i].slug.toLowerCase()}
+                  category={this.props.posts[i].category.category}
                   category_id={this.props.posts[i].category_id}
                   views={this.props.posts[i].view_count}
-                  author={this.props.posts[i].users != null ? this.props.posts[i].users.first_name : 'Skole'}
+                  author={this.props.posts[i].user != null ? this.props.posts[i].user.username : 'Skole'}
                   onclick={this.cardClick}
+                  created={this.props.posts[i].created}
+                  readTime={this.props.posts[i].readTime}
+                  author_id={this.props.posts[i].user_id}
+                  comments = {this.props.posts[i].comments}
                 />
               );
             })

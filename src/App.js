@@ -1,62 +1,34 @@
-import React, { Component } from 'react';
-import { articles } from '../src/article';
-import CardList from './Components/CardListComponent';
+import React from 'react';
+import Sidebar from './Components/SidebarComponent';
+import Display from './Components/DisplayComponent';
+import CategoriesComponent from './Components/categories/categoryComponent';
+import { BlogContext } from './Store/Store'
+class App extends React.Component {
+    static contextType = BlogContext;
 
-class App extends Component {
-    constructor(){
-        super();
-        
-        this.state = {
-            articles: articles,
-            searchField: '',
-            
-        }
-        
+    componentDidMount() {
+
+
     }
-    componentDidMount(){
-        // const header = new Headers({
-        //     "Access-Control-Allow-Origin" : "*", 
-        //     "Access-Control-Allow-Credentials" : true ,
-        //     'Access-Control-Allow-Headers':'Origin, Content-Type, Authorization, X-Requested-With',
-        //     'Content-Type': 'application/json',
-        //     'Origin':'http://localhost:8080/'
-        //    });
-        // fetch('http://jabrosindustries.com/api/v1/articles/all',{
-        //     crossDomain:true,
-        //    headers:header
-        //   })
-        // .then(function(response){
-        //     console.log(response.headers);
-        //     return response.json();
-        // })
-        // .then(response=>console.log(response))
-        // .catch(function(error){
-        //     console.log(error);
-        // });
-        
-    }
-    onSearchChanged = (event) =>{
-        
+    onSearchChanged = (event) => {
+
         this.setState({
             searchField: event.target.value
         });
-        
-        console.log();
     }
-    render(){
-        
-        const filteredArticle = this.state.articles.filter(articles => {
-            return articles.title.toLowerCase().includes(this.state.searchField.toLowerCase())
-        });
-        return (
-            
-            <div className="col-lg-8 col-md-10 mx-auto">
+    render() {
 
-               
-                    <CardList posts={filteredArticle} />
-              
-            </div>
+        // const filteredArticle = this.state.articles.filter(articles => {
+        //     return articles.title.toLowerCase().includes(this.state.searchField.toLowerCase())
+        // });
+        return (
+            <div className="row">
+
+                 <div className="col-sm-12 mb-2 categories"><CategoriesComponent  /></div>  
            
+                <Sidebar />
+                <Display />
+            </div>
         );
     }
 

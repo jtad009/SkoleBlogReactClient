@@ -1,18 +1,28 @@
 import React from "react";
-import { Route, Link } from "react-router-dom";
-import TagFiltered from './TagFilteredComponent';
 
-const Tag = ({id, tag, onclick})=>{
+import {BlogContext} from '../Store/Store';
+const Tag = ({id, tag, onclick, count})=>{
   
     return (
-       <span>
+        <BlogContext.Consumer>
+            {
+                
+                (context)=>{
+                    const {tagChange} = context;
+                    return (
+                        <span>
+                            <a key={id} href="/" className="tag" id={id} onClick={tagChange}>
+                                <span className="txt" id={id}>{tag}</span>
+                            <span className="num">{count}</span>
+                             </a>
             {/* <a key={id} href="r" className="tag" id={id} onClick={onclick}><span className="txt" id={id}>{tag}</span><span className="num">3</span></a> */}
-        <Link to={'/article/tags/'+id} className="tag"><span className="txt">{tag}</span><span className="num">3</span></Link>
-        <Route path='/article/tags/:id' exact strict render={({ match }) => {
-                // eslint-disable-next-line no-unused-expressions
-                (<TagFiltered id={match.params.id} type="filterByTag"/>)
-            }} />
-         </span>
+        
+                         </span>
+                    );
+                }
+            }
+        </BlogContext.Consumer>
+       
     );
 }
 export default Tag;
