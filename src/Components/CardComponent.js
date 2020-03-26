@@ -1,46 +1,69 @@
-import React from 'react';
-import { FaEye, FaUserCircle, FaFolderOpen } from "react-icons/fa";
-import { Route, Link } from "react-router-dom";
-import ViewPost from './ViewPostComponent';
-const Card = ({ id, title, excerpt, cover, slugs, category, views, author, category_id, onclick }) => {
+import React, { useContext } from 'react';
+import { FaComment, FaShareAlt,  FaTrashAlt  } from "react-icons/fa";
+import { BlogContext } from '../Store/Store';
+import TimeAgo from 'react-timeago';
+import ReactTooltip from 'react-tooltip';
+import { getArticleSlugLink } from '../article';
+const Card = ({index, id, title, excerpt, cover, slugs, category, views, author, category_id, onclick, created, readTime, author_id,comments }) => {
     var image = new Image();
-    image.src = 'http://localhost:8080/uploads/blog/' + cover;
+    image.src = cover;
     image.onload = function () {
         //if image exist  then be silenet
+        // image.src = cover;
     };
     image.onerror = function () {
+      
         //if image doesnt load then replace it with the avatar
-        document.getElementById(id).src = 'http://localhost:8080/uploads/blog/bg-post.jpg';
+        document.querySelector('#id'+index).src = '/img/bg-post.jpg';
 
     };
+
+    const { user } = useContext(BlogContext);
+    const share = (event) => {
+        event.preventDefault();
+
+        if (navigator.share) {
+            navigator
+            .share({
+                title: title,
+                text: excerpt,
+                url: getArticleSlugLink(slugs)
+            })
+            .then(() => { alert("success") })
+            .catch((error) => { alert("error") });
+        } else {
+            alert("Sharing not suported, use a chrome browser.")
+        }
+    };
     return (
-        <div className="col-sm-4 mb-3 h-100" data-id={slugs} >
+        <div className="col-sm-4 mb-3 h-100 rounded-lg" data-id={slugs} data-owner={author_id}>
             <div className="card ">
-                <img src={image.src} alt={slugs} className="img-fluid cover" id={id} />
+                <img src={image.src} alt={slugs} className="img-fluid cover" id={'id'+index} height="60" />
                 <div className="card-body">
-                    <h4>
-
-
-                        <Link to={`/articles/view/` + slugs}>{title}</Link>
-                        <Route path='/articles/view/:slug' exact strict render={({ match }) => {
-                            // eslint-disable-next-line no-unused-expressions
-                            (<ViewPost slug={match.params.slug} />)
-                        }} />
-
-
-
-                    </h4>
+                    <h6>
+                        <a href={"/view/"+slugs} id={id}  ><b>{title}</b></a>
+                    </h6>
+                    <div className="row mb-2">
+                        <span className="text-muted small col-sm-12">Published: <TimeAgo date={created} /></span>
+                        <span className="text-muted small col-sm-12 mt-1"> {readTime} min read </span>
+                    </div>
                     <p>{excerpt}</p>
-
                 </div>
-                <div className="col-sm-12 pb-3">
-                    <span className="col-lg-3 small text-muted"><FaUserCircle size="1em" className="mr-1" /> {author}</span>
-                    <Link to={'categories/view/'+ category_id} className="col-lg-3 small text-primary"><FaFolderOpen size="1em" className="mr-1" /> {category}</Link>
-                    
-                    <span className="col-lg-3 small text-muted"><FaEye size="1em" className="mr-1" /> {views}</span>
+                <div className="card-footer">
+                    {/* <div className="row"> */}
+                        <div className="row" style={{display: 'contents',alignContent: 'space-evenly',alignItems: 'end'}}>
+
+                            <a href="#" className="mr-3" data-tip="Share article" onClick={share}><ReactTooltip place="top" /><FaShareAlt color="#ccc" fontSize="15" /></a>
+                            {author_id == user.user_code ? <a href="#" className="mr-3" data-tip="Delete Article" onClick={share}><ReactTooltip place="top" /><FaTrashAlt color="red" fontSize="15" /></a> : ''}
+                            <span style={{fontSize:'14px'}} data-tip="comment"  className="mr-3" onClick={share}><ReactTooltip place="top" />{comments.length} <FaComment color="#ccc" fontSize="15" /></span>
+                            
+                        </div>
+                    {/* </div> */}
                 </div>
             </div>
         </div>
+
+
     );
 }
 

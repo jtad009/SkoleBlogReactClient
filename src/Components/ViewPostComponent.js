@@ -1,70 +1,68 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FaArrowLeft, FaAngleRight, FaFolderOpen } from "react-icons/fa";
-import { articles } from '../article';
 
-import {  Link, Switch } from "react-router-dom";
+import { BlogContext } from '../Store/Store';
+import CardList from './CardListComponent';
+import {API_ENDPOINTS, loadArticlesByCategoryID} from '../article';
+import TagsV2 from './TagsV2'
+
+
 const ViewPost = (params) => {
-    console.log(params.match.params.slug);
-    const filteredArticle = articles.filter(article => {
-        return article.slug.toLowerCase().includes(params.match.params.slug.toLowerCase())
-    });
-    console.log(filteredArticle);
+    const [similar, setSimilar] = useState([]);
+    const capName = (name) => {
+        return name.charAt(0).toUpperCase()+name.slice(1)
+    }
+    const { article, onReset } = useContext(BlogContext);
+    const body = article[0].article.replace(/font-family: Alegreya;/gi,"").replace(/font-family: Roboto;/gi,'');
+    var image = new Image();
+    image.src =  article[0].user.image;
+    image.onload = function () {
+        //if image exist  then be silenet
+    };
+    image.onerror = function () {
+        //if image doesnt load then replace it with the avatar
+        image.src = '/img/avatar.png';
+
+    };
+    useEffect(() => {
+        loadArticlesByCategoryID(article[0].category_id)
+        .then(res => res.json())
+        .then(response => {
+            // console.log(response)
+            setSimilar( response.response.data.articles)
+        })
+    })
     return (
-
-
         
-            <div className="col-lg-8 col-md-10 mx-auto">
-
-                <Switch>
-                    <Link to='/' className="btn-link"><FaArrowLeft />&nbsp;&nbsp;Back</Link>
-                </Switch>
+        <div className="text-justify bg-white p-3">
 
 
-                &nbsp;<FaAngleRight /> &nbsp;
-                 <a href="window.history.back()" className="btn-link"><FaFolderOpen />&nbsp;&nbsp;{filteredArticle[0].categories.category}</a>
-                <hr />
-                <span className="text-muted small">{filteredArticle[0].created_at}</span>
-                <span className="text-muted pull-right small">{filteredArticle[0].view_count} views</span>
+            <p className="small">
+                <a href={window.location.host.includes('localhost') ?     API_ENDPOINTS.dev.HOMEPAGE :    
+                API_ENDPOINTS.production.HOMEPAGE} className="btn-link " onClick={onReset}><FaArrowLeft />&nbsp;&nbsp;Back</a>
 
-                <hr />
+                 &nbsp;<a href="#" className="btn-link small"><FaAngleRight /> </a>&nbsp;
+                <span className="btn-link" ><FaFolderOpen />&nbsp;&nbsp;{article[0].category.category}</span>
+            </p>
+            <hr />
+            <img id={article[0].id} src={image.src}  className="  img-fluid " title="profile image" alt="" style={{borderRadius:'50%', border:'1px solid #ccc', height:'50px'}}/> <span className="text-muted small">Author: {capName(article[0].user.first_name)+ " "+ capName(article[0].user.last_name)}</span>
+            <span className="text-muted pull-right small" style={{  float: 'right', lineHeight: '50px'}}>{article[0].view_count} views</span>
 
-                {filteredArticle[0].article}
-            </div>
-        
+            <hr />
+
+            <div dangerouslySetInnerHTML={{ __html: body }}></div>
+             {article[0].tags.length !== undefined ? <TagsV2 tags={article[0].tags}/> : ''}
+
+            <p className="text-muted font-weight-bold mt-3 text-uppercase">Related Articles</p>
+            {similar.length > 0 ?  <CardList posts={similar} /> : ''}
+        </div>
+
+
 
 
 
 
     );
 }
-// class ViewPost extends Component {
 
-
-//     render() {
-
-//         // document.getElementById('masthead').style.backgroundImage = 'https://skole.com.ng/webroot/img/passport/blogs/Skole-41904.jpg';
-//         return (
-//             <div>
-
-//                     <div className="row">
-//                         <div className="col-lg-8 col-md-10 mx-auto">
-//                             <a href={this.props.history.push('/')} className="btn-link"><FaArrowLeft />&nbsp;&nbsp;Back</a>
-//                             &nbsp;<FaAngleRight /> &nbsp;
-//                                 <a href="window.history.back()" className="btn-link"><FaFolderOpen />&nbsp;&nbsp;{this.props.article[0].categories.category}</a>
-//                             <hr />
-//                             <span className="text-muted small">{this.props.article[0].created_at}</span>
-//                             <span className="text-muted pull-right small">{this.props.article[0].view_count} views</span>
-
-//                             <hr />
-
-//                             {this.props.article[0].article}
-//                         </div>
-//                     </div>
-
-
-//             </div>
-
-//         );
-//     }
-// }
 export default ViewPost;
