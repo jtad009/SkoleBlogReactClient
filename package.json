@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://blog.skole.com.ng",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "draft-js": "^0.11.1",
     "jw-react-pagination": "^1.1.0",
     "prop-types": "^15.7.2",
